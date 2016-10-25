@@ -1,13 +1,12 @@
 (function() {
 	// requires
 	var pluginsInit = require('./plugins')();
-	var hideIntro = require('./blocks/intro-slider');
 	var brandGrid = require('./blocks/brand-grid')();
 	var hideAddressBar = require('./blocks/hide-bar');
+	var hideSlideOuts = require('./blocks/slide-outs');
 
 	// globals
 	var mobileCheck;
-	var introIsHidden;
 
 	if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 		mobileCheck = true;
@@ -95,10 +94,6 @@
 
 	setTimeout(function() {
 		if (window.location.href.split('#')[1] && window.location.href.split('#')[1] !== 'about') {
-			hideIntro();
-			setTimeout(function() {
-				introIsHidden = true;
-			}, 2000);
 			var target = window.location.href.split('#')[1];
 			setTimeout(function() {
 				$('body').mCustomScrollbar('update');
@@ -106,16 +101,6 @@
 			}, 2000);
 		}
 	}, 100);
-
-	// home image
-	(function() {
-		$('.intro-slider').click(function() {
-			hideIntro();
-			setTimeout(function() {
-				introIsHidden = true;
-			}, 2000);
-		});
-	})();
 
 	setImagesAsBackground($('.scroll-item__image'));
 	setImagesAsBackground($('.scroll-item__slider img'));
@@ -304,6 +289,11 @@
 		$('.scroll-item__image-wrap:not(.scroll-item__image-wrap_fullscreen):not(.scroll-item__image-wrap_gallery-trigger)').click(function() {
 			click++;
 			var self = $(this);
+
+			if (self.parent().parent().parent().is($('#contact'))) {
+				return false;
+			}
+
 			self.addClass(activeClass);
 
 			if (click === 2 || !mobileCheck) {
@@ -555,7 +545,7 @@
 
 			$('.tab-slider__image-item_' + index).addClass('active');
 
-			if (mobileCheck && $('body').width() < 450) {
+			if (mobileCheck && $('body').width() < 750) {
 				mainImage.attr('class', 'tab-slider__images-list');
 				mainImage.addClass('tab-slider__images-list_pos-' + index);
 			}
@@ -595,15 +585,26 @@
 		});
 	}, 800);
 
-	// form focuse
+	// form focus
 	$('input, textarea').focus(function() {
 		$(this).parent().find('.scroll-item__text').addClass('scroll-item__text_hidden');
 		$(this).parent().addClass('scroll-item__group_active');
+
+		if (mobileCheck && $(window).width() < 700) {
+			$('#request').addClass('mobile-focus');
+			$(this).parent().addClass('focused');
+		}
 	});
 
 	// out
 	$('input, textarea').focusout(function() {
 		var el = $(this);
+
+		if (mobileCheck && $(window).width() < 700) {
+			$('#request').removeClass('mobile-focus');
+			$(this).parent().removeClass('focused');
+		}
+
 		if (el.val().length < 1) {
 			el.parent().find('.scroll-item__text').removeClass('scroll-item__text_hidden');
 		}
@@ -617,21 +618,11 @@
 
 		var image = $('.tab-slider__images-wrapper');
 		var clonedImage = image.clone().addClass('cloned-image');
-		var whoSectionOffset;
-		var whoSectionHeight;
-		var imageOffsetTop;
 		var clientWidthIsPortrait = $('body').width() < 450;
 
-		var checkForIntro = setInterval(function() {
-			if (introIsHidden) {
-				whoSectionOffset = parseInt($('article#who').offset().top.toFixed(0));
-				whoSectionHeight = $('article#who').height();
-				imageOffsetTop = parseInt($('.tab-slider').offset().top.toFixed(0));
-
-				clearInterval(checkForIntro);
-			}
-		}, 2000);
-
+		var whoSectionOffset = parseInt($('article#who').offset().top.toFixed(0));
+		var whoSectionHeight = $('article#who').height();
+		var imageOffsetTop = parseInt($('.tab-slider').offset().top.toFixed(0));
 
 		if (mobileCheck) {
 			$('.tab-slider').append(clonedImage);
@@ -650,6 +641,11 @@
 				if (scroller >= imageOffsetTop && scroller <= (whoSectionOffset + whoSectionHeight)) {
 					clonedImage.addClass('cloned-fixed');
 					image.addClass('hide-original');
+					if (scroller - (whoSectionOffset + whoSectionHeight) > -130) {
+						clonedImage.addClass('fade');
+					} else {
+						clonedImage.removeClass('fade');
+					}
 				} else {
 					clonedImage.removeClass('cloned-fixed');
 					image.removeClass('hide-original');
@@ -660,6 +656,19 @@
 
 		});
 	}, 1000);
+
+	// submit form
+	(function() {
+		$('#request button[type="submit"]').click(function(e) {
+			e.preventDefault();
+
+			$('#request').addClass('message-sent');
+
+			setTimeout(function() {
+				hideSlideOuts();
+			}, 1000);
+		});
+	})();
 
 	// global helpers
 	function setImagesAsBackground(node, hasMobile) {

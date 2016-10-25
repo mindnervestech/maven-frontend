@@ -158,30 +158,33 @@
           <h1 class="fixed-heading"></h1>
         </div>
         <div class="scroll-items-wrapper">
+          <article id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
+            <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
+              <div class="intro-slider__item">
+                <div class="intro-slider__image"><img data-desktop="img/Izzy+_MAVEN.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Izzy+_NOTEXT.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
+              </div>
+              <div class="intro-slider__item">
+                <div class="intro-slider__image"><img data-desktop="img/Kristalia_MAVEN.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Kristalia_NoText.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
+              </div>
+              <div class="intro-slider__item">
+                <div class="intro-slider__image"><img data-desktop="img/OFSBrands_MAVEN.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/OFSBrands_NOtext.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
+              </div>
+              <div class="intro-slider__item">
+                <div class="intro-slider__image"><img data-desktop="img/PeterPepper_MAVEN.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/PeterPepper_NoText.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
+              </div>
+            </div>
+          </article>
           <article id="about" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">about</h2>
             </div>
             <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
               <div data-layout="1" class="scroll-item__left-column scroll-item__left-column_flex">
-                <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
-                  <div class="intro-slider__item">
-                    <div class="intro-slider__image"><img data-desktop="img/Izzy+_MAVEN.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
-                    <div class="intro-slider__sub-image"><img data-desktop="img/Izzy+_NOTEXT.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
-                  </div>
-                  <div class="intro-slider__item">
-                    <div class="intro-slider__image"><img data-desktop="img/Kristalia_MAVEN.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
-                    <div class="intro-slider__sub-image"><img data-desktop="img/Kristalia_NoText.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
-                  </div>
-                  <div class="intro-slider__item">
-                    <div class="intro-slider__image"><img data-desktop="img/OFSBrands_MAVEN.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
-                    <div class="intro-slider__sub-image"><img data-desktop="img/OFSBrands_NOtext.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
-                  </div>
-                  <div class="intro-slider__item">
-                    <div class="intro-slider__image"><img data-desktop="img/PeterPepper_MAVEN.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
-                    <div class="intro-slider__sub-image"><img data-desktop="img/PeterPepper_NoText.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
-                  </div>
-                </div>
+                <div data-animation="shortened" data-animation-type="onEnter" class="scroll-item__image-wrap"><img src="img/preview.jpg" alt="image" class="scroll-item__image" /></div>
               </div>
               <div data-layout="1" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex">
                 <div class="scroll-item__wrap-text">
@@ -254,7 +257,7 @@
               </div>
             </div>
           </article>
-          <article id="contact" class="scroll-item scroll-item_slide-out">
+          <article id="contact" class="scroll-item scroll-item_slide-out scroll-item_slide-out_in-content">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">contact</h2>
             </div>
@@ -263,7 +266,7 @@
                 <div data-animation="shortened" data-animation-type="onEnter" class="scroll-item__image-wrap"><img src="img/maven-showroom.jpg" alt="image" class="scroll-item__image" /></div>
               </div>
               <div data-layout="2" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex">
-                <p class="scroll-item__paragraph">923 Harrison St <br/>San Francisco CA 94107<br/>415-621-3232 <br/><a href="mailto:info@mavenwest.com">info@mavenwest.com</a></p>
+                <p class="scroll-item__paragraph">923 Harrison St <br/>San Francisco CA 94107<br/><a href="tel:4156213232">415-621-3232</a> <br/><a href="mailto:info@mavenwest.com">info@mavenwest.com</a></p>
               </div>
             </div>
           </article>
@@ -584,11 +587,12 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, ab?</p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
       </div>
       <div class="gallery-modal modal"></div>
-      <div id="request" class="scroll-item_slide-out">
+      <div id="request" class="scroll-item_slide-out scroll-item_slide-out_in-content">
         <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
           <div data-layout="contacts" class="scroll-item__full-column scroll-item__text scroll-item__full-column_flex">
             <div class="m-close"></div>
             <h2 class="scroll-item__subheading">Thank you for your interest</h2>
+            <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
             <p class="scroll-item__paragraph clearfix">if you wish contact us please fill out the form below and our esentatives will git in touch you soon</p>
             <form class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
               <label class="scroll-item__group">

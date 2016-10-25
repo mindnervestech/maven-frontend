@@ -1,7 +1,5 @@
 module.exports = function() {
 	// globals
-	var hideIntro = require('./blocks/intro-slider');
-
 	var mobileCheck;
 	if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 		mobileCheck = true;
@@ -9,6 +7,8 @@ module.exports = function() {
 		mobileCheck = false;
 		$('body').addClass('stop-scrolling');
 	};
+
+	var hideSlideOuts = require('./blocks/slide-outs');
 
 	function showHeader() {
 		toggleHeader('show_header', 'hide_header');
@@ -85,12 +85,22 @@ module.exports = function() {
 
 		// make generic scene
 		function _makeScene(item) {
+			var isScrollInited = false;
+
 			new ScrollMagic.Scene({
 					triggerElement: item,
 					duration: '100%'
 				})
 				.addTo(controller)
 				.on('progress', function (e) {
+					setTimeout(function() {
+						isScrollInited = true;
+					}, 1000);
+
+					if (isScrollInited) {
+						hideSlideOuts();
+					}
+
 					var el = _getScrollNodes(this.triggerElement().id);
 
 					el.node.find('.scroll-item__image-wrap').each(function() {
@@ -202,7 +212,6 @@ module.exports = function() {
 				})
 
 				.on('start end', function (e) {
-					hideSlideOuts();
 					var el = _getScrollNodes(this.triggerElement().id);
 
 					if (e.type != 'start' && !el.link.hasClass('nav-menu__link_black')) {
@@ -363,15 +372,16 @@ module.exports = function() {
 		});
 	})();
 
-	function hideSlideOuts() {
-		$('.slide-out-menu').removeClass('slide-out-menu_active');
-		$('.scroll-item_slide-out').removeClass('scroll-item_slide-out_active');
-	}
+	// intro hide on click
+	(function() {
+		$('#intro').click(function() {
+			hideSlideOuts();
+		});
+	})();
 
 	// scrollbar
 	(function() {
-		var scrollPosition = 0,
-			isIntroHidden = false;
+		var scrollPosition = 0;
 
 		var imageListHeight = $('.tab-slider__images-list').height();
 
@@ -382,54 +392,9 @@ module.exports = function() {
 		if (mobileCheck) return;
 
 		setTimeout(function() {
-		$('body').mCustomScrollbar({
-		    theme: 'minimal-dark',
-		    callbacks: {
-			    onScrollStart: function(){
-			    	scrollPosition = this.mcs.top;
-				},
-				whileScrolling: throttle(function() {
-					var currentPosition = this.mcs.top;
-					if (currentPosition < scrollPosition) {
-						// scroll down
-						if (!isIntroHidden) {
-							setTimeout(function() {
-								hideIntro('scroll');
-							}, 0);
-
-							isIntroHidden = true;
-						}
-
-						hideHeader();
-					} else {
-						// scroll up
-						showHeader();
-					}
-
-					if (this.mcs.top < -1183 && this.mcs.top > -1870 && mobileCheck && $('body').width() < 400) {
-			    		$('.tab-slider').addClass('fixed');
-			    	} else {
-			    		$('.tab-slider').removeClass('fixed');
-			    	}
-				}, 50),
-				onScroll: throttle(function() {
-					var HEIGHT_HEADER = 60,
-						pause = false;
-					if (this.mcs.top > - HEIGHT_HEADER) {
-						showHeader();
-						setTimeout(function() {
-							pause = true;
-						}, 500);
-					} else {
-						if (pause) {
-							hideHeader();
-							pause = true;
-						}
-					}
-				}, 200)
-		    }
-
-		});
+			$('body').mCustomScrollbar({
+			    theme: 'minimal-dark'
+			});
 		}, 1000);
 	})();
 };
