@@ -1,5 +1,7 @@
 package pl.codeleak.demos.sbt.home;
 
+import java.util.List;
+
 import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import view.ContactVM;
+import view.ManufacturersVM;
+import view.WebAnalyticsVM;
 
 import com.planetj.servlet.filter.compression.CompressingFilter;
 
@@ -44,6 +48,14 @@ class HomeController {
 	
     @RequestMapping("/")
     String index(Model model) {
+    	List<ManufacturersVM> mList = homeService.getManufacturersInfo();
+    	List<ManufacturersVM> mListAll = homeService.getManufacturersInfoAll();
+    	WebAnalyticsVM webAna = homeService.getWebAnalytics();
+    	model.addAttribute("manufacturersList", mList);
+    	model.addAttribute("manufacturersDataList", mListAll);
+    	model.addAttribute("imagesserver", rootPath);
+    	model.addAttribute("webAnalytics", webAna);
+    	
     	return "index";
     }
     

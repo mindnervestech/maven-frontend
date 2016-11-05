@@ -1,4 +1,4 @@
-app.controller("ContactController", function($scope,$http,$window /*,notificationService*/) {
+app.controller("ContactController", function($scope,$http,$window /*,notificationService  notificationService*/) {
 	
 	console.log("conttact");
 	$scope.contactData={};
@@ -15,8 +15,10 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		 console.log("save conttact");
 		 	$("#submitDemo").attr("disabled", true);
 			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
-				// notificationService.success("Contact Us Submit Successfully");
+				//notificationService.success("Contact Us Submit Successfully");
 				 $scope.contact = {};
-			});
+			 /*}).error(function(){
+					console.log("Error.................");*/
+			 });
 	 };
 });

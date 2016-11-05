@@ -31,6 +31,7 @@
       <p>he's witnessed asteroid that wiped out dinosaurs<br>he's so ancient that he can barely render your page</p>
       <p>Please,<a href="http://browsehappy.com/">update it</a></p>
     </div><![endif]-->
+    
     <div class="page-wrapper page-wrapper_flex">
       <aside class="left-pane left-pane_flex">
         <div class="logo"><a href="/" class="logo__link"><img src="img/logo.png" alt="logo" class="logo__image" /></a></div><a data-anchor="contact" class="nav-menu__link nav-menu__link_default slide-out-menu slide-out-menu_in-menu">contact</a>
@@ -43,12 +44,30 @@
                   <div class="nav-menu__progress-bar"></div>
                 </div><a href="#about" class="nav-menu__link nav-menu__link_default">about</a>
               </li>
+              
+            <!--   <ul th:each="page : ${pagesList}" >
+							 <li th:if="${page.link}!=null and ${page.link}!='slide-out'"><a th:href="${page.link}" th:text="${page.name}"></a></li>
+							<li class="has-submenu" th:if="${page.link}==null or ${page.link}=='slide-out'">
+								<a th:href="${page.readyLink}" th:text="${page.name}" th:attr="ng-click='readyColl(\''+${page.section} + '\')'"></a>
+								<ul class="submenu">
+									<li th:if="${page.link}==null" th:each="clist : ${cList}"><a th:href="'/furniture/productsWise/?id='+${clist.id}" th:text="${clist.title}"></a></li>
+									<li th:if="${page.link}=='slide-out'" th:each="clist : ${page.collectionList}"><a th:href="'/furniture/slideWise/?id='+${clist.id}" th:text="${clist.title}"></a></li>
+								</ul>
+							</li>
+						</ul>	 -->
+              
+              
+              <!-- <li class="nav-menu__item" th:each="menus : ${manufacturersList}">
+                <div class="nav-menu__progress">
+                  <div class="nav-menu__progress-bar"></div>
+                </div><a th:href="#allermuir" class="nav-menu__link nav-menu__link_default" th:text="${menus.title}"></a>
+              </li> -->
               <li class="nav-menu__item">
                 <div class="nav-menu__progress">
                   <div class="nav-menu__progress-bar"></div>
                 </div><a href="#manufacturers" class="nav-menu__link nav-menu__link_default">manufacturers</a>
                 <ul class="submenu submenu__list submenu_hidden">
-                  <li class="submenu__item submenu__item_continue">
+                  <!-- <li class="submenu__item submenu__item_continue">
                     <div class="submenu__progress">
                       <div class="submenu__progress-bar"></div>
                     </div><a href="#senator_group" class="submenu__link submenu__link_default">senator group</a>
@@ -63,6 +82,19 @@
                           <div class="thirdmenu__progress-bar"></div>
                         </div><a href="#senator" class="thirdmenu__link">senator</a>
                       </li>
+                    </ul>
+                  </li> -->
+                  <li class="submenu__item submenu__item_continue" th:each="menus : ${manufacturersList}">
+                    <div class="submenu__progress">
+                      <div class="submenu__progress-bar"></div>
+                    </div><a th:href="@{'#'+  ${menus.title}}" class="submenu__link submenu__link_default" th:text="${menus.title}"></a>
+                    <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
+                      <li class="thirdmenu__item" th:each="subMenu : ${menus.submenu}">
+                        <div class="thirdmenu__progress">
+                          <div class="thirdmenu__progress-bar"></div>
+                        </div><a th:href="@{'#'+  ${subMenu.title}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
+                      </li>
+                      
                     </ul>
                   </li>
                   <li class="submenu__item submenu__item_continue">
@@ -228,7 +260,10 @@
                     </div>
                   </div>
                 </div>
+                
+                
                 <div class="tab-slider__select-list">
+                
                   <div class="tab-slider__select-item">
                     <h3>Sarah Reyes</h3>
                     <p>Showroom Manager</p><a href="mailto:sarah@mavenwest.com">sarah@mavenwest.com</a><a href="tel:#">415-621-3232</a>
@@ -282,7 +317,25 @@
               </div>
             </div>
           </article>
-          <article id="senator_group" class="scroll-item">
+          
+            
+            <article th:each="menus : ${manufacturersDataList}" th:id="${menus.title}"  class="scroll-item">
+            <div class="scroll-item__heading-wrap">
+              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
+            </div>
+            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
+              <div data-layout="5" class="scroll-item__left-column scroll-item__left-column_flex">
+              <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:each="imgs : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+                <!-- <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.imgs[0].path}" alt="image" class="scroll-item__image" /></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2"><img src="img/manufacturers/SenatorsGroup/senatorGroupTall.jpg" alt="image" class="scroll-item__image" /></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3"><img src="img/manufacturers/SenatorsGroup/senatorGroupSquareLower.jpg" alt="image" class="scroll-item__image" /></div> -->
+              </div>
+              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a href="http://www.thesenatorgroup.com/americas/" target="_blank" class="scroll-item__logo-section"><img src="img/manufacturers/SenatorsGroup/SenatorGroup.jpg" alt="The Senators group" class="scroll-item__logo-image" /></a>
+                <p class="scroll-item__paragraph" th:text="${menus.description}"></p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
+              </div>
+            </div>
+          </article>  
+           <article id="senator_group" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">senator group</h2>
             </div>
@@ -296,8 +349,8 @@
                 <p class="scroll-item__paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt ratione officiis consectetur fuga autem sit in exercitationem velit non eveniet nesciunt sunt eaque quas at ipsam quam, hic ullam maxime pariatur veniam. Nihil mollitia voluptatem dignissimos voluptatibus nesciunt beatae accusantium.</p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
               </div>
             </div>
-          </article>
-          <article id="allermuir" class="scroll-item">
+          </article> 
+          <!-- <article id="allermuir" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">allermuir</h2>
             </div>
@@ -311,7 +364,7 @@
                 <p class="scroll-item__paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt ratione officiis consectetur fuga autem sit in exercitationem velit non eveniet nesciunt sunt eaque quas at ipsam quam, hic ullam maxime pariatur veniam. Nihil mollitia voluptatem dignissimos voluptatibus nesciunt beatae accusantium.</p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
               </div>
             </div>
-          </article>
+          </article> -->
           <article id="senator" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">senator</h2>
@@ -420,6 +473,7 @@
               </div>
             </div>
           </article>
+          
           <article id="izzy" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">Izzy</h2>
@@ -652,6 +706,7 @@
 
 <a title="Web Analytics" href="http://clicky.com/100998608"><img alt="Web Analytics" src="//static.getclicky.com/media/links/badge.gif" border="0" /></a>
 <script type="text/javascript">
+
 var clicky_site_ids = clicky_site_ids || [];
 clicky_site_ids.push(100998608);
 (function() {
@@ -663,13 +718,5 @@ clicky_site_ids.push(100998608);
 })();
 </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100998608ns.gif" /></p></noscript>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-86851280-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
+<div th:utext='${webAnalytics.trackingCode}'></div>
