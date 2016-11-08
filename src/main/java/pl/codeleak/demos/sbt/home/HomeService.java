@@ -119,6 +119,7 @@ class HomeService {
 			vm.id = (Long) map.get("id");
 			vm.title = (String) map.get("title");
 			vm.description = (String) map.get("description");
+			vm.logoPath = (String) map.get("file_path");
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
 				ManufacturersImgVM mVm = new ManufacturersImgVM();

@@ -8,6 +8,7 @@ public class ManufacturersVM {
 	public String title;
 	public String description;
 	public String publicStatus;
+	public String logoPath;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
 	

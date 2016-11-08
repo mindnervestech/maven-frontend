@@ -53,7 +53,7 @@ class HomeController {
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	model.addAttribute("manufacturersList", mList);
     	model.addAttribute("manufacturersDataList", mListAll);
-    	model.addAttribute("imagesserver", rootPath);
+    	model.addAttribute("imagesserver", imagesserver);
     	model.addAttribute("webAnalytics", webAna);
     	
     	return "index";
