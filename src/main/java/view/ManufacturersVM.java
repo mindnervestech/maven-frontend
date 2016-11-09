@@ -9,6 +9,7 @@ public class ManufacturersVM {
 	public String description;
 	public String publicStatus;
 	public String logoPath;
+	public String hrefTitle;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
 	

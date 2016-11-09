@@ -51,15 +51,17 @@ class HomeService {
 	}
 	
 	public List<ManufacturersVM> getManufacturersInfo() {
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id is null");
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id is null and hide_website = 0");
 		List<ManufacturersVM> manufacturersUrls = new ArrayList<ManufacturersVM>();
 		
 		for(Map map : rows) {
 			List<ManufacturersChildVM> manufacturersChildList = new ArrayList<ManufacturersChildVM>();
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
 			ManufacturersVM vm = new ManufacturersVM();
+			String title = (String) map.get("title");
 			vm.id = (Long) map.get("id");
 			vm.title = (String) map.get("title");
+			vm.hrefTitle = title.replaceAll(" ", "_");
 			vm.description = (String) map.get("description");
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
@@ -73,12 +75,14 @@ class HomeService {
 			}
 			vm.imgs = manufacturersimgUrls;
 			
-			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id = '"+vm.id+"'");
+			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id = '"+vm.id+"' and hide_website = 0");
 			for(Map mapSub : rowsSub) {
 				List<ManufacturersImgVM> manufacturersimgSub = new ArrayList<ManufacturersImgVM>();
 				ManufacturersChildVM mVmC = new ManufacturersChildVM();
+				title = (String) mapSub.get("title");
 				mVmC.id = (Long) mapSub.get("id");
 				mVmC.title = (String) mapSub.get("title");
+				mVmC.hrefTitle = title.replaceAll(" ", "_");
 				mVmC.description = (String) mapSub.get("description");
 				List<Map<String, Object>> rowsSubImg = jdbcTemplate.queryForList("select * from product_images where product_id = '"+mVmC.id+"'");
 				for(Map mapSubImg : rowsSubImg) {
@@ -110,14 +114,16 @@ class HomeService {
 	}
 	
 	public List<ManufacturersVM> getManufacturersInfoAll() {
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish'");
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and hide_website = 0");
 		List<ManufacturersVM> manufacturersUrls = new ArrayList<ManufacturersVM>();
 		
 		for(Map map : rows) {
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
 			ManufacturersVM vm = new ManufacturersVM();
+			String title = (String) map.get("title");
 			vm.id = (Long) map.get("id");
 			vm.title = (String) map.get("title");
+			vm.hrefTitle = title.replaceAll(" ", "_");			
 			vm.description = (String) map.get("description");
 			vm.logoPath = (String) map.get("file_path");
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");

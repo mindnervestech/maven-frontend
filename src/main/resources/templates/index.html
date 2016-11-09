@@ -87,12 +87,12 @@
                   <li class="submenu__item submenu__item_continue" th:each="menus : ${manufacturersList}">
                     <div class="submenu__progress">
                       <div class="submenu__progress-bar"></div>
-                    </div><a th:href="@{'#'+  ${menus.title}}" class="submenu__link submenu__link_default" th:text="${menus.title}"></a>
+                    </div><a th:href="@{'#'+  ${menus.hrefTitle}}" class="submenu__link submenu__link_default" th:text="${menus.title}"></a>
                     <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
                       <li class="thirdmenu__item" th:each="subMenu : ${menus.submenu}">
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
-                        </div><a th:href="@{'#'+  ${subMenu.title}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
+                        </div><a th:href="@{'#'+  ${subMenu.hrefTitle}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
                       </li>
                       
                     </ul>
@@ -319,7 +319,7 @@
           </article>
           
             
-            <article th:each="menus : ${manufacturersDataList}" th:id="${menus.title}"  class="scroll-item">
+            <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}"  class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
             </div>
