@@ -330,7 +330,7 @@
                 <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${ind.index} == 1" th:each="imgs,ind : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
                 <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2" th:each="imgs,ind : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
               </div>
-              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a href="http://www.thesenatorgroup.com/americas/" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a>
+              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a>
                 <p class="scroll-item__paragraph" th:text="${menus.description}"></p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
               </div>
             </div>

@@ -66,6 +66,7 @@ class HomeService {
 			vm.title = (String) map.get("title");
 			vm.hrefTitle = title.replaceAll(" ", "_");
 			vm.description = (String) map.get("description");
+			vm.externalUrlLink = (String) map.get("external_url_link");
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
 				ManufacturersImgVM mVm = new ManufacturersImgVM();
@@ -86,6 +87,7 @@ class HomeService {
 				mVmC.id = (Long) mapSub.get("id");
 				mVmC.title = (String) mapSub.get("title");
 				mVmC.hrefTitle = title.replaceAll(" ", "_");
+				vm.externalUrlLink = (String) map.get("external_url_link");
 				mVmC.description = (String) mapSub.get("description");
 				List<Map<String, Object>> rowsSubImg = jdbcTemplate.queryForList("select * from product_images where product_id = '"+mVmC.id+"'");
 				for(Map mapSubImg : rowsSubImg) {
@@ -126,9 +128,12 @@ class HomeService {
 			String title = (String) map.get("title");
 			vm.id = (Long) map.get("id");
 			vm.title = (String) map.get("title");
-			vm.hrefTitle = title.replaceAll(" ", "_");			
+			vm.hrefTitle = title.replaceAll(" ", "_");
+			vm.externalUrlLink = (String) map.get("external_url_link");
+			
 			vm.description = (String) map.get("description");
 			vm.logoPath = (String) map.get("file_path");
+			
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
 				ManufacturersImgVM mVm = new ManufacturersImgVM();
