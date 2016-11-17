@@ -73,6 +73,8 @@ class HomeService {
 				mVm.path = (String) map1.get("path");
 				mVm.thumbPath = (String) map1.get("thumb_path");
 				mVm.name = (String) map1.get("image_name");
+				mVm.title = (String) map1.get("title");
+				mVm.description = (String) map1.get("description");
 				manufacturersimgUrls.add(mVm);
 				
 			}
@@ -95,6 +97,8 @@ class HomeService {
 					mVm1.path = (String) mapSubImg.get("path");
 					mVm1.thumbPath = (String) mapSubImg.get("thumb_path");
 					mVm1.name = (String) mapSubImg.get("image_name");
+					mVm1.title = (String) mapSubImg.get("title");
+					mVm1.description = (String) mapSubImg.get("description");
 					manufacturersimgSub.add(mVm1);
 					
 				}
@@ -140,6 +144,8 @@ class HomeService {
 				mVm.path = (String) map1.get("path");
 				mVm.thumbPath = (String) map1.get("thumb_path");
 				mVm.name = (String) map1.get("image_name");
+				mVm.title = (String) map1.get("title");
+				mVm.description = (String) map1.get("description");
 				manufacturersimgUrls.add(mVm);
 				
 			}

@@ -7,8 +7,7 @@ public class ManufacturersImgVM {
 	public String path;
 	public String thumbPath;
 	public String defaultImg;
-	
-	
-	
+	public String title;
+	public String description;
 	
 }
