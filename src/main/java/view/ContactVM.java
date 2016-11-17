@@ -7,9 +7,18 @@ public class ContactVM {
 	public String message;
 	public String phone;
 	public String urlName;
+	public String productid;
 	public Long locations_id;
 	
 	
+	
+	
+	public String getProductid() {
+		return productid;
+	}
+	public void setProductid(String productid) {
+		this.productid = productid;
+	}
 	public String getUrlName() {
 		return urlName;
 	}

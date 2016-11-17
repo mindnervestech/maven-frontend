@@ -2,6 +2,10 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	
 	console.log("conttact");
 	$scope.contactData={};
+	$scope.manufactureId = function(id){
+		console.log("????????",id);
+		$scope.productid = id;
+	};
 	$scope.contactus = function(){
 		var url      = window.location.href;
 		var fileName = url.split("#");
@@ -10,6 +14,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.contactData.email = $scope.contact.email;
 		$scope.contactData.phone = $scope.contact.phone;
 		$scope.contactData.message = $scope.contact.message;
+		$scope.contactData.productid = $scope.productid;
 		$scope.contactData.urlName = fileName[1];
 		console.log($scope.contactData);
 		 console.log("save conttact");
@@ -21,4 +26,5 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 					console.log("Error.................");*/
 			 });
 	 };
+	 
 });
