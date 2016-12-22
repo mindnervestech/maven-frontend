@@ -8,6 +8,7 @@ module.exports = function() {
 		$('body').addClass('stop-scrolling');
 	};
 
+	var delaySlideOut = false;
 	var hideSlideOuts = require('./blocks/slide-outs');
 
 	function showHeader() {
@@ -60,6 +61,100 @@ module.exports = function() {
         return wrapper;
     }
 
+    var focusedItem;
+
+    // form: focus in
+	$('input, textarea').focus(function() {
+		var el = $(this),
+			currentForm = $(this).parent().parent(),
+			wrapper = currentForm.parent().parent();
+
+		delaySlideOut = true;
+
+		$('.next-step').addClass('next-step_active');
+
+		el.parent().find('.scroll-item__text').addClass('scroll-item__text_hidden');
+		el.parent().addClass('scroll-item__group_active');
+
+		focusedItem = el.parent();
+
+		if (mobileCheck && $(window).width() < 700) {
+			currentForm.addClass('mobile-focus');
+			el.parent().addClass('focused');
+		}
+
+		// $('.scroll-item__subheading_form').hide();
+	});
+
+	// form: focus out
+	$('input, textarea').focusout(function() {
+		var el = $(this),
+			currentForm = $(this).parent().parent(),
+			wrapper = currentForm.parent().parent();
+
+		$('.next-step').removeClass('next-step_active');
+
+		if (mobileCheck && $(window).width() < 700) {
+			currentForm.removeClass('mobile-focus');
+			$(this).parent().removeClass('focused');
+		}
+
+		if (el.val().length < 1) {
+			el.parent().find('.scroll-item__text').removeClass('scroll-item__text_hidden');
+		}
+		$(this).parent().removeClass('scroll-item__group_active');
+
+		if (currentForm.hasClass('last-step')) {
+			currentForm.find('button').click();
+		}
+
+		if (el.prop('required') && el.val().length < 2) {
+			el.addClass('not-valid');
+		}
+
+		if (el.hasClass('not-valid') && el.val().length > 2) {
+			el.removeClass('not-valid');
+		}
+
+		currentForm.removeClass('last-step');
+
+		// $('.scroll-item__subheading_form').show();
+
+		setTimeout(function() {
+			delaySlideOut = false;
+		}, 5000);
+	});
+
+	$('.m-close').click(function() {
+		hideSlideOuts();
+	});
+
+	// next step
+	(function() {
+		$('.next-step').click(function() {
+			var currentForm = $(this).parent(),
+				wrapper = currentForm.parent().parent();
+
+			if (focusedItem) {
+				var nextItem = focusedItem.next();
+
+				if (focusedItem.find('input').hasClass('not-valid')) {
+					focusedItem.find('input').focus();
+					return;
+				}
+
+				if (nextItem.hasClass('scroll-item__group')) {
+					focusedItem.next().focus();
+				}
+
+				if (!nextItem.next().hasClass('scroll-item__group')) {
+					currentForm.addClass('last-step');
+					// $('.next-step').removeClass('next-step_active');
+				}
+			}
+		});
+	})();
+
 	// scroll magic
 	(function() {
 		var CONTENT_BLOCK = $('.main-content'),
@@ -97,7 +192,7 @@ module.exports = function() {
 						isScrollInited = true;
 					}, 1000);
 
-					if (isScrollInited) {
+					if (isScrollInited && !delaySlideOut) {
 						hideSlideOuts();
 					}
 
@@ -142,17 +237,19 @@ module.exports = function() {
 						}
 					});
 
+					var currentProgress = e.progress.toFixed(2).replace(/\d\./, '');
+
 					if (el.isInSubMenu) {
 						el.link.parent().find('.submenu__progress-bar').css({
-							'height': e.progress.toFixed(2).replace(/\d\./, '')
+							'transform': 'translateY(' + currentProgress + 'px)'
 						})
 					} else if (el.isInThirdMenu) {
 						el.link.parent().find('.thirdmenu__progress-bar').css({
-							'height': e.progress.toFixed(2).replace(/\d\./, '')
+							'transform': 'translateY(' + currentProgress + 'px)'
 						})
 					} else {
 						el.bar.css({
-							'height': e.progress.toFixed(2).replace(/\d\./, '')
+							'transform': 'translateY(' + currentProgress + 'px)'
 						})
 					}
 
@@ -186,6 +283,7 @@ module.exports = function() {
 			            if (el.image.data('animationType') === 'onEnter') {
 			            	var animationClass = 'scroll-item__image-wrap_' + el.image.data('animation');
 
+			            	el.image.addClass('color');
 			            	el.image.removeClass(animationClass);
 			            }
 
@@ -203,6 +301,7 @@ module.exports = function() {
 
 			            	if (!el.image.hasClass(animationClass)) {
 			            		el.image.addClass(animationClass);
+			            		el.image.removeClass('color');
 			            	}
 			            }
 
@@ -218,7 +317,7 @@ module.exports = function() {
 						if (!el.isInSubMenu) {
 							if (e.state == 'AFTER') el.link.addClass('nav-menu__link_black');
 							if (e.state === 'DURING' && el.isInThirdMenu) {
-								var heightPos = 76;
+								var heightPos = 78;
 
 								el.link.parent().parent().parent().parent().parent().find('.submenu').css({
 									'margin-top': '-' + heightPos * el.link.parent().parent().parent().index() + 'px'
@@ -360,14 +459,14 @@ module.exports = function() {
 
 		slideOutItems.click(function (e) {
 			e.preventDefault();
-
+			hideHeader();
 			$(this).toggleClass('slide-out-menu_active');
 			$('#' + $(this).data('anchor')).toggleClass('scroll-item_slide-out_active');
 		});
 
 		slideOutPhone.click(function (e) {
 			e.preventDefault();
-
+			hideHeader();
 			$('#' + $(this).data('anchor')).toggleClass('scroll-item_slide-out_active');
 		});
 	})();
