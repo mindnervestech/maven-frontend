@@ -72,17 +72,17 @@
                       <div class="submenu__progress-bar"></div>
                     </div><a href="#ercol" class="submenu__link submenu__link_default">ercol</a>
                   </li>
-                  <li class="submenu__item submenu__item_continue">
+                  <li class="submenu__item submenu__item_continue" th:each="menus : ${manufacturersList}">
                     <div class="submenu__progress">
                       <div class="submenu__progress-bar"></div>
-                    </div><a href="#izzy" class="submenu__link submenu__link_default">izzy+</a>
+                    </div><a th:href="@{'#'+  ${menus.hrefTitle}}" class="submenu__link submenu__link_default" th:text="${menus.title}"></a>
                     <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
-                      <li class="thirdmenu__item">
+                      <li class="thirdmenu__item" th:each="subMenu : ${menus.submenu}">
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#izzy_item" class="thirdmenu__link">izzy</a>
+                        </div><a th:href="@{'#'+  ${subMenu.hrefTitle}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
                       </li>
-                      <li class="thirdmenu__item">
+                   <!--    <li class="thirdmenu__item">
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
                         </div><a href="#fixtures" class="thirdmenu__link">fixtures</a>
@@ -96,7 +96,7 @@
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
                         </div><a href="#harter" class="thirdmenu__link">harter</a>
-                      </li>
+                      </li> -->
                       <li class="thirdmenu__item"></li>
                     </ul>
                   </li>
@@ -300,7 +300,7 @@
               </div>
             </div>
           </article>
-          <article id="izzy" class="scroll-item">
+          <!-- <article id="izzy" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">Izzy</h2>
             </div>
@@ -312,6 +312,23 @@
               </div>
               <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a href="http://izzyplus.com/" target="_blank" class="scroll-item__logo-section"><img src="img/manufacturers/Izzy/izzyplus.jpg" alt="Izzy+" class="scroll-item__logo-image"/></a>
                 <p class="scroll-item__paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt ratione officiis consectetur fuga autem sit in exercitationem velit non eveniet nesciunt sunt eaque quas at ipsam quam, hic ullam maxime pariatur veniam. Nihil mollitia voluptatem dignissimos voluptatibus nesciunt beatae accusantium.</p><a href="#" data-anchor="request" class="request-more slide-out-menu"> Request more info</a>
+              </div>
+            </div>
+          </article> -->
+          
+            <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}"  class="scroll-item">
+            <div class="scroll-item__heading-wrap">
+              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
+            </div>
+            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
+              <div data-layout="5" class="scroll-item__left-column scroll-item__left-column_flex">
+              <!-- <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:each="imgs : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div> -->
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:if="${ind.index} == 0" th:each="imgs,ind : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${ind.index} == 1" th:each="imgs,ind : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2" th:each="imgs,ind : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+              </div>
+              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a>
+                <p class="scroll-item__paragraph" th:text="${menus.description}"></p><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'"> Request more info</a>
               </div>
             </div>
           </article>
