@@ -13,9 +13,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 
 import view.ContactVM;
+import view.MainCollectionVM;
 import view.ManufacturersChildVM;
 import view.ManufacturersImgVM;
-import view.ManufacturersVM;
+import view.CollectionVM;
 import view.WebAnalyticsVM;
 
 @Controller
@@ -52,10 +53,49 @@ class HomeService {
 		
 	}
 	
-	public List<ManufacturersVM> getManufacturersInfo() {
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id is null and hide_website = 0");
-		List<ManufacturersVM> manufacturersUrls = new ArrayList<ManufacturersVM>();
+	public List<MainCollectionVM> getCollectionInfo() {
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from inventory_setting where hide_website = 0");
+		List<MainCollectionVM> maList = new ArrayList<MainCollectionVM>();
 		
+		for(Map map : rows) {
+			MainCollectionVM mCollectionVM = new MainCollectionVM();
+			String collection = (String) map.get("collection");
+			mCollectionVM.collection = collection;
+			mCollectionVM.hrefCollection = collection.replaceAll(" ", "_");
+			List<CollectionVM> coll = new ArrayList<CollectionVM>();
+			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and main_collection_id = '"+(Long) map.get("id")+"' and hide_website = 0");
+			for(Map mapSub : rowsSub) {
+				CollectionVM cVm = new CollectionVM();
+				String title = (String) mapSub.get("title");
+				cVm.id = (Long) mapSub.get("id");
+				cVm.title = (String) mapSub.get("title");
+				if(title != null){
+					cVm.hrefTitle = title.replaceAll(" ", "_");
+				}
+				cVm.description = (String) mapSub.get("description");
+				cVm.externalUrlLink = (String) mapSub.get("external_url_link");
+				List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+cVm.id+"'");
+				List<ManufacturersImgVM> mVms = new ArrayList<ManufacturersImgVM>();
+				for(Map map1 : rows1) {
+					ManufacturersImgVM mVm = new ManufacturersImgVM();
+					mVm.id = (Long) map1.get("id");
+					mVm.path = (String) map1.get("path");
+					mVm.thumbPath = (String) map1.get("thumb_path");
+					mVm.name = (String) map1.get("image_name");
+					mVm.title = (String) map1.get("title");
+					mVm.description = (String) map1.get("description");
+					mVms.add(mVm);
+					
+				}
+				cVm.imgs = mVms;
+				coll.add(cVm);
+			}
+			mCollectionVM.subCollection = coll;
+			maList.add(mCollectionVM);
+			
+		}
+		
+		/*
 		for(Map map : rows) {
 			List<ManufacturersChildVM> manufacturersChildList = new ArrayList<ManufacturersChildVM>();
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
@@ -107,8 +147,8 @@ class HomeService {
 			}
 			vm.submenu = manufacturersChildList;
 			manufacturersUrls.add(vm);
-		}
-		return manufacturersUrls;
+		}*/
+		return maList;
 		
 	}
 	public WebAnalyticsVM getWebAnalytics(){
@@ -121,13 +161,24 @@ class HomeService {
 		return web;
 	}
 	
-	public List<ManufacturersVM> getManufacturersInfoAll() {
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and hide_website = 0");
-		List<ManufacturersVM> manufacturersUrls = new ArrayList<ManufacturersVM>();
+	public List<CollectionVM> getManufacturersInfoAll() {
+		
+		
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from inventory_setting where hide_website = 0");
+		List<CollectionVM> manufacturersUrls = new ArrayList<CollectionVM>();
 		
 		for(Map map : rows) {
+			CollectionVM vm = new CollectionVM();
+			String collection = (String) map.get("collection");
+			vm.title = collection;
+			vm.hrefTitle = collection.replaceAll(" ", "_");
+			manufacturersUrls.add(vm);
+		}
+		List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and hide_website = 0");
+		
+		for(Map map : rowsSub) {
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
-			ManufacturersVM vm = new ManufacturersVM();
+			CollectionVM vm = new CollectionVM();
 			String title = (String) map.get("title");
 			vm.id = (Long) map.get("id");
 			vm.title = (String) map.get("title");

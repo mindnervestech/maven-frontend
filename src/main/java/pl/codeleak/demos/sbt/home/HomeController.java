@@ -12,14 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
-
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import view.CollectionVM;
 import view.ContactVM;
-import view.ManufacturersVM;
+import view.MainCollectionVM;
 import view.WebAnalyticsVM;
 
 import com.planetj.servlet.filter.compression.CompressingFilter;
@@ -48,8 +46,8 @@ class HomeController {
 	
     @RequestMapping("/")
     String index(Model model) {
-    	List<ManufacturersVM> mList = homeService.getManufacturersInfo();
-    	List<ManufacturersVM> mListAll = homeService.getManufacturersInfoAll();
+    	List<MainCollectionVM> mList = homeService.getCollectionInfo();
+    	List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	model.addAttribute("manufacturersList", mList);
     	model.addAttribute("manufacturersDataList", mListAll);

@@ -67,17 +67,12 @@
                   <div class="nav-menu__progress-bar"></div>
                 </div><a href="#manufacturers" class="nav-menu__link nav-menu__link_default">manufacturers</a>
                 <ul class="submenu submenu__list submenu_hidden">
-                  <li class="submenu__item">
-                    <div class="submenu__progress">
-                      <div class="submenu__progress-bar"></div>
-                    </div><a href="#ercol" class="submenu__link submenu__link_default">ercol</a>
-                  </li>
                   <li class="submenu__item submenu__item_continue" th:each="menus : ${manufacturersList}">
                     <div class="submenu__progress">
                       <div class="submenu__progress-bar"></div>
-                    </div><a th:href="@{'#'+  ${menus.hrefTitle}}" class="submenu__link submenu__link_default" th:text="${menus.title}"></a>
+                    </div><a th:href="@{'#'+  ${menus.hrefCollection}}" class="submenu__link submenu__link_default" th:text="${menus.collection}"></a>
                     <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
-                      <li class="thirdmenu__item" th:each="subMenu : ${menus.submenu}">
+                      <li class="thirdmenu__item" th:each="subMenu : ${menus.subCollection}">
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
                         </div><a th:href="@{'#'+  ${subMenu.hrefTitle}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
@@ -100,71 +95,7 @@
                       <li class="thirdmenu__item"></li>
                     </ul>
                   </li>
-                  <li class="submenu__item">
-                    <div class="submenu__progress">
-                      <div class="submenu__progress-bar"></div>
-                    </div><a href="#kristalia" class="submenu__link submenu__link_default">kristalia</a>
-                  </li>
-                  <li class="submenu__item submenu__item_continue">
-                    <div class="submenu__progress">
-                      <div class="submenu__progress-bar"></div>
-                    </div><a href="#ofs" class="submenu__link submenu__link_default">ofs brands</a>
-                    <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#carolina" class="thirdmenu__link">Carolina</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#first_office" class="thirdmenu__link">First Office</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#highmark" class="thirdmenu__link">Highmark</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#loewenstein" class="thirdmenu__link">Loewenstein</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#ofs_item" class="thirdmenu__link">OFS</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="submenu__item">
-                    <div class="submenu__progress">
-                      <div class="submenu__progress-bar"></div>
-                    </div><a href="#peter_pepper" class="submenu__link submenu__link_default">peter pepper</a>
-                  </li>
-                  <li class="submenu__item submenu__item_continue">
-                    <div class="submenu__progress">
-                      <div class="submenu__progress-bar"></div>
-                    </div><a href="#senator_group" class="submenu__link submenu__link_default">senator group</a>
-                    <ul class="thirdmenu thirdmenu__list thirdmenu_hidden">
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#allermuir" class="thirdmenu__link">allermuir</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#senator" class="thirdmenu__link">senator</a>
-                      </li>
-                    </ul>
-                  </li>
                 </ul>
-              </li>
-              <li class="nav-menu__item">
-                <div class="nav-menu__progress">
-                  <div class="nav-menu__progress-bar"></div>
-                </div><a href="#quickship" class="nav-menu__link nav-menu__link_default">quickship</a>
               </li>
             </ul>
           </nav>
@@ -322,10 +253,12 @@
             </div>
             <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
               <div data-layout="5" class="scroll-item__left-column scroll-item__left-column_flex">
-              <!-- <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:each="imgs : ${menus.imgs}"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div> -->
-                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:if="${ind.index} == 0"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+               <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1"><img src="img/final/Izzy/audrey.jpg" alt="image" class="scroll-item__image"/></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2"><img src="img/final/Izzy/dotti.jpg" alt="image" class="scroll-item__image"/></div>
+                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3"><img src="img/final/Izzy/sylvi.jpg" alt="image" class="scroll-item__image"/></div>
+                <!-- <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:if="${ind.index} == 0"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
                 <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${ind.index} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
-                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div> -->
               </div>
               <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a>
                 <p class="scroll-item__paragraph" th:text="${menus.description}"></p><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'"> Request more info</a>
@@ -610,15 +543,18 @@
               </div>
             </div>
           </article>
+           
           <article id="contacts" class="scroll-item scroll-item_form">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">contact us</h2>
             </div>
+            
             <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
               <div data-layout="contacts" class="scroll-item__full-column scroll-item__text scroll-item__full-column_flex">
                 <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
                 <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
-                <form action="#" name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
+               
+                <form name="request" ng-submit="contactus()" class="scroll-item__form scroll-item__form_right">
                   <div class="next-step">
                     <div class="fa fa-arrow-right"></div>
                   </div>
@@ -641,7 +577,7 @@
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Method of contact</div>
                     <div class="select-item">
-                      <select name="">
+                      <select name="contacts" ng-model="contact.contact">
                         <option value="phone">Phone</option>
                         <option value="email">Email</option>
                       </select>
@@ -670,14 +606,15 @@
             <div class="m-close">
               <div class="fa fa-close"></div>
             </div>
+            
             <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
             <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
-            <form action="#" name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
+            <form name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
               <div class="next-step">
                 <div class="fa fa-arrow-right"></div>
               </div>
               <label class="scroll-item__group">
-                <div class="scroll-item__text">Name</div>
+              <div class="scroll-item__text">Name</div>
                 <input type="text" ng-model="contact.name" required="required"/>
               </label>
               <label class="scroll-item__group">
@@ -695,7 +632,7 @@
               <label class="scroll-item__group">
                 <div class="scroll-item__text">Method of contact</div>
                 <div class="select-item">
-                  <select name="">
+                   <select name="contacts" ng-model="contact.contact">
                     <option value="phone">Phone</option>
                     <option value="email">Email</option>
                   </select>
