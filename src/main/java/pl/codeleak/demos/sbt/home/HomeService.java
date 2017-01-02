@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 
 import view.ContactVM;
+import view.LeadTypeVM;
 import view.MainCollectionVM;
 import view.ManufacturersChildVM;
 import view.ManufacturersImgVM;
@@ -48,7 +49,7 @@ class HomeService {
 		DateFormat timeFormat = new SimpleDateFormat("HH:mm:dd");
 		DateFormat timeDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
-		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_product where");
+		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_collection where");
 		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+1+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+1+"','"+managerId.get(0).get("id")+"')");
 		
 	}
@@ -63,7 +64,7 @@ class HomeService {
 			mCollectionVM.collection = collection;
 			mCollectionVM.hrefCollection = collection.replaceAll(" ", "_");
 			List<CollectionVM> coll = new ArrayList<CollectionVM>();
-			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and main_collection_id = '"+(Long) map.get("id")+"' and hide_website = 0");
+			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and main_collection_id = '"+(Long) map.get("id")+"' and hide_website = 0");
 			for(Map mapSub : rowsSub) {
 				CollectionVM cVm = new CollectionVM();
 				String title = (String) mapSub.get("title");
@@ -120,7 +121,7 @@ class HomeService {
 			}
 			vm.imgs = manufacturersimgUrls;
 			
-			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and parent_id = '"+vm.id+"' and hide_website = 0");
+			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and parent_id = '"+vm.id+"' and hide_website = 0");
 			for(Map mapSub : rowsSub) {
 				List<ManufacturersImgVM> manufacturersimgSub = new ArrayList<ManufacturersImgVM>();
 				ManufacturersChildVM mVmC = new ManufacturersChildVM();
@@ -174,7 +175,7 @@ class HomeService {
 			vm.hrefTitle = collection.replaceAll(" ", "_");
 			manufacturersUrls.add(vm);
 		}
-		List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_product where public_status = 'publish' and hide_website = 0");
+		List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and hide_website = 0");
 		
 		for(Map map : rowsSub) {
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
@@ -187,8 +188,26 @@ class HomeService {
 			
 			vm.description = (String) map.get("description");
 			vm.logoPath = (String) map.get("file_path");
+			List<Map<String, Object>> rowsLead = jdbcTemplate.queryForList("select * from lead_type where deleted = 0");
+			List<LeadTypeVM> vmList = new ArrayList<LeadTypeVM>();
+			int count = 0;
+			for(Map mapLead : rowsLead) {
+				LeadTypeVM lVm = new LeadTypeVM();
+				lVm.id = (Long) mapLead.get("id");
+				lVm.leadType = (String) mapLead.get("lead_name");
+				if(mapLead.get("hide_website") != null){
+					lVm.showOnWebsite = (Boolean) mapLead.get("hide_website");
+				}
+				vmList.add(lVm);
+				count++;
+				if(count == 5){
+					vm.leadType = vmList;
+					break;
+				}
+			}
 			
-			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from product_images where product_id = '"+vm.id+"'");
+			
+			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from collection_images where collection_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
 				ManufacturersImgVM mVm = new ManufacturersImgVM();
 				mVm.id = (Long) map1.get("id");

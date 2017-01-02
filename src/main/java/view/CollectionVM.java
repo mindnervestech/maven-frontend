@@ -13,6 +13,7 @@ public class CollectionVM {
 	public String hrefTitle;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
+	public List<LeadTypeVM> leadType;
 	
 	
 	
