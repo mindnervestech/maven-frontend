@@ -173,6 +173,9 @@ class HomeService {
 			String collection = (String) map.get("collection");
 			vm.title = collection;
 			vm.hrefTitle = collection.replaceAll(" ", "_");
+			if(map.get("path") != null){
+				vm.logoPath = (String) map.get("path");
+			}
 			manufacturersUrls.add(vm);
 		}
 		List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and hide_website = 0");

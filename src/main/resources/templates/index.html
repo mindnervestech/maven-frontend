@@ -47,7 +47,7 @@
               <li class="nav-menu__item" th:each="menus : ${manufacturersList}">
                 <div class="nav-menu__progress">
                   <div class="nav-menu__progress-bar"></div>
-                </div><a href="#manufacturers" class="nav-menu__link nav-menu__link_default" th:text="${menus.collection}"></a>
+                </div><a th:href="@{'#'+  ${menus.hrefCollection}}" class="nav-menu__link nav-menu__link_default" th:text="${menus.collection}"></a>
                 <ul class="submenu submenu__list submenu_hidden">
                   <li class="submenu__item submenu__item_continue" th:each="subMenu : ${menus.subCollection}">
                     <div class="submenu__progress">
@@ -182,14 +182,14 @@
               </div>
             </div>
           </article>
-          <article id="manufacturers" class="scroll-item">
+          <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}" class="scroll-item">
             <div class="scroll-item__heading-wrap">
-              <h2 class="scroll-item__heading">manufacturers</h2>
+              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
             </div>
             <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
               <div data-layout="4" class="scroll-item__full-column scroll-item__full-column_flex">
                 <div data-layout="4" class="scroll-item__image-bundle">
-                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" data-title="Manufacturers" data-text=" Lorem ipsum." class="scroll-item__image-wrap"><img src="img/Maven_Manufacturers.jpg" alt="Manufacturers" class="scroll-item__image"/></div>
+                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" data-title="Manufacturers" data-text=" Lorem ipsum." class="scroll-item__image-wrap"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="Manufacturers" class="scroll-item__image"/></div>
                 </div>
               </div>
             </div>
