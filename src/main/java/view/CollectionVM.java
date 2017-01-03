@@ -10,6 +10,7 @@ public class CollectionVM {
 	public String publicStatus;
 	public String externalUrlLink;
 	public String logoPath;
+	public String fileType;
 	public String hrefTitle;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;

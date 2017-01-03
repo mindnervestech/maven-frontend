@@ -188,6 +188,11 @@ class HomeService {
 			
 			vm.description = (String) map.get("description");
 			vm.logoPath = (String) map.get("file_path");
+			if(map.get("file_type") != null){
+				vm.fileType = (String) map.get("file_type");
+			}else{
+				vm.fileType = "png";
+			}
 			List<Map<String, Object>> rowsLead = jdbcTemplate.queryForList("select * from lead_type where deleted = 0");
 			List<LeadTypeVM> vmList = new ArrayList<LeadTypeVM>();
 			int count = 0;

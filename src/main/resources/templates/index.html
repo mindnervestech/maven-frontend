@@ -44,25 +44,19 @@
                   <div class="nav-menu__progress-bar"></div>
                 </div><a href="#about" class="nav-menu__link nav-menu__link_default">about</a>
               </li>
-              
-            <!--   <ul th:each="page : ${pagesList}" >
-							 <li th:if="${page.link}!=null and ${page.link}!='slide-out'"><a th:href="${page.link}" th:text="${page.name}"></a></li>
-							<li class="has-submenu" th:if="${page.link}==null or ${page.link}=='slide-out'">
-								<a th:href="${page.readyLink}" th:text="${page.name}" th:attr="ng-click='readyColl(\''+${page.section} + '\')'"></a>
-								<ul class="submenu">
-									<li th:if="${page.link}==null" th:each="clist : ${cList}"><a th:href="'/furniture/productsWise/?id='+${clist.id}" th:text="${clist.title}"></a></li>
-									<li th:if="${page.link}=='slide-out'" th:each="clist : ${page.collectionList}"><a th:href="'/furniture/slideWise/?id='+${clist.id}" th:text="${clist.title}"></a></li>
-								</ul>
-							</li>
-						</ul>	 -->
-              
-              
-              <!-- <li class="nav-menu__item" th:each="menus : ${manufacturersList}">
+              <li class="nav-menu__item" th:each="menus : ${manufacturersList}">
                 <div class="nav-menu__progress">
                   <div class="nav-menu__progress-bar"></div>
-                </div><a th:href="#allermuir" class="nav-menu__link nav-menu__link_default" th:text="${menus.title}"></a>
-              </li> -->
-              <li class="nav-menu__item">
+                </div><a href="#manufacturers" class="nav-menu__link nav-menu__link_default" th:text="${menus.collection}"></a>
+                <ul class="submenu submenu__list submenu_hidden">
+                  <li class="submenu__item submenu__item_continue" th:each="subMenu : ${menus.subCollection}">
+                    <div class="submenu__progress">
+                      <div class="submenu__progress-bar"></div>
+                    </div><a th:href="@{'#'+  ${subMenu.hrefTitle}}" class="submenu__link submenu__link_default" th:text="${subMenu.title}"></a>
+                  </li>
+                </ul>
+              </li>
+            <!--   <li class="nav-menu__item">
                 <div class="nav-menu__progress">
                   <div class="nav-menu__progress-bar"></div>
                 </div><a href="#manufacturers" class="nav-menu__link nav-menu__link_default">manufacturers</a>
@@ -76,27 +70,11 @@
                         <div class="thirdmenu__progress">
                           <div class="thirdmenu__progress-bar"></div>
                         </div><a th:href="@{'#'+  ${subMenu.hrefTitle}}" class="thirdmenu__link" th:text="${subMenu.title}"></a>
-                      </li>
-                   <!--    <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#fixtures" class="thirdmenu__link">fixtures</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#hag" class="thirdmenu__link">hag</a>
-                      </li>
-                      <li class="thirdmenu__item">
-                        <div class="thirdmenu__progress">
-                          <div class="thirdmenu__progress-bar"></div>
-                        </div><a href="#harter" class="thirdmenu__link">harter</a>
-                      </li> -->
                       <li class="thirdmenu__item"></li>
                     </ul>
                   </li>
                 </ul>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>
@@ -260,8 +238,7 @@
                 <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${ind.index} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
                 <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div> -->
               </div>
-               <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a> 
-             <!-- <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img src="http://45.33.50.143:8080/MavenImg/images/89-336920109/Logo/collection1_svvgg.svg" alt="The Senators group" class="scroll-item__logo-image" /></a>-->
+              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:if="${menus.fileType}!='svg'" th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a><a th:if="${menus.fileType}=='svg'" th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
               
                 <p class="scroll-item__paragraph" th:text="${menus.description}"></p><span th:each="lead : ${menus.leadType}"><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${lead.leadType}"></a><br></br></span>
               </div>
