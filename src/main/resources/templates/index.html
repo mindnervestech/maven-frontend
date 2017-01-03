@@ -182,18 +182,7 @@
               </div>
             </div>
           </article>
-          <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}" class="scroll-item">
-            <div class="scroll-item__heading-wrap">
-              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
-            </div>
-            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
-              <div data-layout="4" class="scroll-item__full-column scroll-item__full-column_flex">
-                <div data-layout="4" class="scroll-item__image-bundle">
-                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" data-title="Manufacturers" data-text=" Lorem ipsum." class="scroll-item__image-wrap"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="Manufacturers" class="scroll-item__image"/></div>
-                </div>
-              </div>
-            </div>
-          </article>
+          
           <article id="ercol" class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">Ercol</h2>
@@ -225,7 +214,7 @@
             </div>
           </article> -->
           
-            <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}"  class="scroll-item">
+            <article th:each="menus : ${collectionList}" th:id="${menus.hrefTitle}"  class="scroll-item">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
             </div>
@@ -243,6 +232,18 @@
               </div>
               <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
                 <p class="scroll-item__paragraph" th:text="${menus.description}"></p><span th:each="lead : ${menus.leadType}"><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${lead.leadType}"></a><br></br></span>
+              </div>
+            </div>
+          </article>
+          <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}" class="scroll-item">
+            <div class="scroll-item__heading-wrap">
+              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
+            </div>
+            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
+              <div data-layout="4" class="scroll-item__full-column scroll-item__full-column_flex">
+                <div data-layout="4" class="scroll-item__image-bundle">
+                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" data-title="Manufacturers" data-text=" Lorem ipsum." class="scroll-item__image-wrap"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="Manufacturers" class="scroll-item__image"/></div>
+                </div>
               </div>
             </div>
           </article>

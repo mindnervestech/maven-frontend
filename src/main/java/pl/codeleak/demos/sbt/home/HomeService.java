@@ -162,24 +162,12 @@ class HomeService {
 		return web;
 	}
 	
-	public List<CollectionVM> getManufacturersInfoAll() {
+	public List<CollectionVM> getAllCollection() {
 		
 		
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from inventory_setting where hide_website = 0");
 		List<CollectionVM> manufacturersUrls = new ArrayList<CollectionVM>();
 		
-		for(Map map : rows) {
-			CollectionVM vm = new CollectionVM();
-			String collection = (String) map.get("collection");
-			vm.title = collection;
-			vm.hrefTitle = collection.replaceAll(" ", "_");
-			if(map.get("path") != null){
-				vm.logoPath = (String) map.get("path");
-			}
-			manufacturersUrls.add(vm);
-		}
 		List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and hide_website = 0");
-		
 		for(Map map : rowsSub) {
 			List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
 			CollectionVM vm = new CollectionVM();
@@ -214,7 +202,6 @@ class HomeService {
 				}
 			}
 			
-			
 			List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from collection_images where collection_id = '"+vm.id+"'");
 			for(Map map1 : rows1) {
 				ManufacturersImgVM mVm = new ManufacturersImgVM();
@@ -232,6 +219,28 @@ class HomeService {
 			
 			manufacturersUrls.add(vm);
 		}
+		return manufacturersUrls;
+		
+	}
+	
+	
+	
+	public List<CollectionVM> getManufacturersInfoAll() {
+		
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from inventory_setting where hide_website = 0");
+		List<CollectionVM> manufacturersUrls = new ArrayList<CollectionVM>();
+		
+		for(Map map : rows) {
+			CollectionVM vm = new CollectionVM();
+			String collection = (String) map.get("collection");
+			vm.title = collection;
+			vm.hrefTitle = collection.replaceAll(" ", "_");
+			if(map.get("path") != null){
+				vm.logoPath = (String) map.get("path");
+			}
+			manufacturersUrls.add(vm);
+		}
+		
 		return manufacturersUrls;
 		
 	}

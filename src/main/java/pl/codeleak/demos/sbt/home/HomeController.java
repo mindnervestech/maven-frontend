@@ -47,10 +47,12 @@ class HomeController {
     @RequestMapping("/")
     String index(Model model) {
     	List<MainCollectionVM> mList = homeService.getCollectionInfo();
+    	List<CollectionVM> collectionListAll = homeService.getAllCollection();
     	List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	model.addAttribute("manufacturersList", mList);
     	model.addAttribute("manufacturersDataList", mListAll);
+    	model.addAttribute("collectionList", collectionListAll);
     	model.addAttribute("imagesserver", imagesserver);
     	model.addAttribute("webAnalytics", webAna);
     	
