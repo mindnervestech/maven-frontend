@@ -4,20 +4,21 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 
+import view.CollectionVM;
 import view.ContactVM;
 import view.LeadTypeVM;
 import view.MainCollectionVM;
-import view.ManufacturersChildVM;
 import view.ManufacturersImgVM;
-import view.CollectionVM;
 import view.WebAnalyticsVM;
 
 @Controller
@@ -78,10 +79,9 @@ class HomeService {
 					CollectionVM cVmChild = new CollectionVM();
 					AddCollectionData(mapChild,cVmChild,collChild);
 				}
+				cVm.count = "0";
 				if(collChild.size() > 0){
 					cVm.count = "1";
-				}else{
-					cVm.count = "0";
 				}
 				
 				cVm.childCollection = collChild;
@@ -212,13 +212,16 @@ class HomeService {
 		
 	}
 	
-public List<CollectionVM> getCollectionAllData() {
+public Map getCollectionAllData() {
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from inventory_setting where hide_website = 0");
 		List<CollectionVM> manufacturersUrls = new ArrayList<CollectionVM>();
+		List<MainCollectionVM> maList = new ArrayList<MainCollectionVM>();
 		
 		for(Map mapMain : rows) {
+			MainCollectionVM mCollectionVM = new MainCollectionVM();
 			CollectionVM vmMain = new CollectionVM();
+			
 			String collection = (String) mapMain.get("collection");
 			vmMain.title = collection;
 			vmMain.hrefTitle = collection.replaceAll(" ", "_");
@@ -226,24 +229,44 @@ public List<CollectionVM> getCollectionAllData() {
 				vmMain.logoPath = (String) mapMain.get("path");
 			}
 			vmMain.menuType = "MainCollection";
+			
+			mCollectionVM.collection = collection;
+			mCollectionVM.hrefCollection = collection.replaceAll(" ", "_");
+			
+			List<CollectionVM> coll = new ArrayList<CollectionVM>();
+			
 			manufacturersUrls.add(vmMain);
+			
 			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and main_collection_id = '"+(Long) mapMain.get("id")+"' and parent_id IS NULL and hide_website = 0");
 			for(Map mapSub : rowsSub) {
-				
+				List<CollectionVM> collChild = new ArrayList<CollectionVM>();
 				List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
 				CollectionVM vmSub = new CollectionVM();
+				CollectionVM cVm = new CollectionVM();
+				AddCollectionData(mapSub,cVm,coll);
 				AddCollectionDataList(manufacturersUrls,manufacturersimgUrls,vmSub,mapSub);
-				
 				List<Map<String, Object>> rowsChild = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and parent_id = '"+vmSub.id+"' and hide_website = 0");
 				for(Map mapChild:rowsChild){
 					List<ManufacturersImgVM> collectionImgUrls = new ArrayList<ManufacturersImgVM>();
 					CollectionVM vmColl = new CollectionVM();
+					
+					CollectionVM cVmChild = new CollectionVM();
+					AddCollectionData(mapChild,cVmChild,collChild);
 					AddCollectionDataList(manufacturersUrls,collectionImgUrls,vmColl,mapChild);
 				}
+				cVm.count = "0";
+				if(collChild.size() > 0){
+					cVm.count = "1";
+				}
+				cVm.childCollection = collChild;
 			}
+			mCollectionVM.subCollection = coll;
+			maList.add(mCollectionVM);
 		}
-		
-		return manufacturersUrls;
+		Map<String,Object> listMap = new HashMap<String,Object>();
+		listMap.put("menuList", maList);
+		listMap.put("artial", manufacturersUrls);
+		return listMap;
 		
 	}
 

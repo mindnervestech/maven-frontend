@@ -1,6 +1,7 @@
 package pl.codeleak.demos.sbt.home;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 
@@ -46,13 +47,14 @@ class HomeController {
 	
     @RequestMapping("/")
     String index(Model model) {
-    	List<MainCollectionVM> mList = homeService.getCollectionInfo();
+    	//List<MainCollectionVM> mList = homeService.getCollectionInfo();
     	//List<CollectionVM> collectionListAll = homeService.getAllCollection();
-    	List<CollectionVM> mListAllData = homeService.getCollectionAllData();
+    	//List<CollectionVM> mListAllData = homeService.getCollectionAllData();
+    	Map mListAllData = homeService.getCollectionAllData();
     	//List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
-    	model.addAttribute("manufacturersList", mList);
-    	model.addAttribute("allCollectionList", mListAllData);
+    	model.addAttribute("manufacturersList", mListAllData.get("menuList"));
+    	model.addAttribute("allCollectionList", mListAllData.get("artial"));
     	
     	//model.addAttribute("manufacturersDataList", mListAll);
     	//model.addAttribute("collectionList", collectionListAll);
