@@ -11,10 +11,13 @@ public class CollectionVM {
 	public String externalUrlLink;
 	public String logoPath;
 	public String fileType;
+	public String menuType;
+	public String count;
 	public String hrefTitle;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
 	public List<LeadTypeVM> leadType;
+	public List<CollectionVM> childCollection;
 	
 	
 	

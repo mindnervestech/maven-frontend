@@ -47,17 +47,24 @@ class HomeController {
     @RequestMapping("/")
     String index(Model model) {
     	List<MainCollectionVM> mList = homeService.getCollectionInfo();
-    	List<CollectionVM> collectionListAll = homeService.getAllCollection();
-    	List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
+    	//List<CollectionVM> collectionListAll = homeService.getAllCollection();
+    	List<CollectionVM> mListAllData = homeService.getCollectionAllData();
+    	//List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	model.addAttribute("manufacturersList", mList);
-    	model.addAttribute("manufacturersDataList", mListAll);
-    	model.addAttribute("collectionList", collectionListAll);
+    	model.addAttribute("allCollectionList", mListAllData);
+    	
+    	//model.addAttribute("manufacturersDataList", mListAll);
+    	//model.addAttribute("collectionList", collectionListAll);
     	model.addAttribute("imagesserver", imagesserver);
+    	//model.addAttribute("imagesserver", rootPath);
+    	
     	model.addAttribute("webAnalytics", webAna);
     	
     	return "index";
     }
+    //file:///D:/SOFTWARES/apache-tomcat-7.0.56/webapps/MavenImg/images/14-336920109/Sunset.jpg
+    	//file:///D:/SOFTWARES/apache-tomcat-7.0.56/webapps/MavenImg/images/MavenImg/images/93-336920109/Waterlilies.jpg	
     
     @RequestMapping(value="/saveContactDetail",method=RequestMethod.POST) 
 	public @ResponseBody void saveContactDetail(@RequestBody ContactVM vm) {
