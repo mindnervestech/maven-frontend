@@ -80,7 +80,11 @@
                   </li>  -->
                 </ul>
               </li> 
-            
+              <li class="nav-menu__item">
+                <div class="nav-menu__progress">
+                  <div class="nav-menu__progress-bar"></div>
+                </div><a href="#quickship" class="nav-menu__link nav-menu__link_default">quickship</a>
+              </li> 
             </ul>
           </nav>
         </div>
@@ -223,21 +227,39 @@
 	              <div data-layout="5" class="scroll-item__left-column scroll-item__left-column_flex">
 	                <!-- <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1"><img src="img/final/Izzy/audrey.jpg" alt="image" class="scroll-item__image"/></div>
 	                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2"><img src="img/final/Izzy/dotti.jpg" alt="image" class="scroll-item__image"/></div>
-	                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3"><img src="img/final/Izzy/sylvi.jpg" alt="image" class="scroll-item__image"/></div> --> 
-	                 <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:if="${ind.index} == 0"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
-	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${ind.index} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
-	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${ind.index} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+	                <div data-animation="moved" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3"><img src="img/final/Izzy/sylvi.jpg" alt="image" class="scroll-item__image"/></div> --> <!-- th:if="${imgs.index} == 0" -->
+	                 <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-1" th:if="${imgs.srNumber} == 0"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${imgs.srNumber} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
+	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${imgs.srNumber} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
 	              </div>
 	              <div th:if="${menus.fileType}!='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p><span th:each="lead : ${menus.leadType}"><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${lead.leadType}"></a><br></br></span>
 	              </div>
+	              
 	              <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p><span th:each="lead : ${menus.leadType}"><a href="#" data-anchor="request" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${lead.leadType}"></a><br></br></span>
 	              </div>
 	            </div>
             </div>
           </article>
-         
+          <article id="quickship" class="scroll-item">
+            <div class="scroll-item__heading-wrap">
+              <h2 class="scroll-item__heading">quickship</h2>
+            </div>
+            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
+              <div data-layout="10" class="scroll-item__full-column scroll-item__text scroll-item__full-column_flex">
+                <div data-layout="12" class="scroll-item__image-bundle">
+                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" class="scroll-item__image-wrap"><img src="img/quickships.png" alt="image" class="scroll-item__image"/></div>
+                </div>
+                <div class="brand-grid">
+                  <div class="brand-grid__item"><a href="http://www.thesenatorgroup.com/americas/resource-library/allermuir-xpress-brochure/">the senator group</a></div>
+                  <div class="brand-grid__item"><a href="http://ofsbrands.com/products/quickship/">ofs brands</a></div>
+                  <div class="brand-grid__item"><a href="http://highmarkergo.com/">highmark</a></div>
+                  <div class="brand-grid__item"><a href="http://www.peterpepper.com/">peter pepper</a></div>
+                </div>
+              </div>
+            </div>
+          </article>
           <article id="contact" class="scroll-item scroll-item_slide-out scroll-item_slide-out_in-content">
             <div class="scroll-item__heading-wrap">
               <h2 class="scroll-item__heading">contact</h2>

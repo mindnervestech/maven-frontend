@@ -50,23 +50,23 @@ class HomeController {
     	//List<MainCollectionVM> mList = homeService.getCollectionInfo();
     	//List<CollectionVM> collectionListAll = homeService.getAllCollection();
     	//List<CollectionVM> mListAllData = homeService.getCollectionAllData();
-    	Map mListAllData = homeService.getCollectionAllData();
     	//List<CollectionVM> mListAll = homeService.getManufacturersInfoAll();
+    	
+    	Map mListAllData = homeService.getCollectionAllData();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	model.addAttribute("manufacturersList", mListAllData.get("menuList"));
     	model.addAttribute("allCollectionList", mListAllData.get("artial"));
     	
+    	
+    	model.addAttribute("imagesserver", imagesserver);
+    	model.addAttribute("webAnalytics", webAna);
+    	//model.addAttribute("imagesserver", rootPath);
     	//model.addAttribute("manufacturersDataList", mListAll);
     	//model.addAttribute("collectionList", collectionListAll);
-    	model.addAttribute("imagesserver", imagesserver);
-    	//model.addAttribute("imagesserver", rootPath);
     	
-    	model.addAttribute("webAnalytics", webAna);
     	
     	return "index";
     }
-    //file:///D:/SOFTWARES/apache-tomcat-7.0.56/webapps/MavenImg/images/14-336920109/Sunset.jpg
-    	//file:///D:/SOFTWARES/apache-tomcat-7.0.56/webapps/MavenImg/images/MavenImg/images/93-336920109/Waterlilies.jpg	
     
     @RequestMapping(value="/saveContactDetail",method=RequestMethod.POST) 
 	public @ResponseBody void saveContactDetail(@RequestBody ContactVM vm) {

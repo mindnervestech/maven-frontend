@@ -13,6 +13,7 @@ public class CollectionVM {
 	public String fileType;
 	public String menuType;
 	public String count;
+	public int srNumber;
 	public String hrefTitle;
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
