@@ -232,17 +232,19 @@
 	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}"  data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-2" th:if="${imgs.srNumber} == 2"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
 	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${imgs.srNumber} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
 	              </div>
+	            
+	              
 	              <div th:if="${menus.fileType}!='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
-	                <a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[0].leadType}"></a>
+	                <a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[1].leadType}"></a>
+                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 2" th:text="${menus.leadType[1].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[2].leadType}"></a>
+                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 3" th:text="${menus.leadType[2].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[3].leadType}"></a>
+                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 4" th:text="${menus.leadType[3].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[4].leadType}"></a>
+                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].leadType}"></a>
                 	<br></br>
 	                <span th:each="lead,rowStat : ${menus.leadType}">	                	
 	                	<div class="gallery-modal modal"></div>
@@ -289,15 +291,15 @@
 	              
 	              <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
-                	<a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[0].leadType}"></a>
+                	<a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[1].leadType}"></a>
+                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 2" th:text="${menus.leadType[1].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[2].leadType}"></a>
+                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 3" th:text="${menus.leadType[2].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[3].leadType}"></a>
+                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 4" th:text="${menus.leadType[3].leadType}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:text="${menus.leadType[4].leadType}"></a>
+                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].leadType}"></a>
                 	<br></br>
 	                <span th:each="lead,rowStat : ${menus.leadType}">	                	
 	                	<div class="gallery-modal modal"></div>

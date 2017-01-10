@@ -179,41 +179,20 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 	List<LeadTypeVM> vmList = new ArrayList<LeadTypeVM>();
 	int count = 0;
 	for(Map mapLead : rowsLead) {
-		LeadTypeVM lVm = new LeadTypeVM();
-		lVm.id = (Long) mapLead.get("id");
-		lVm.leadType = (String) mapLead.get("lead_name");
-		if(mapLead.get("hide_website") != null){
-			lVm.showOnWebsite = (Boolean) mapLead.get("hide_website");
+		if("Request More Info".equals((String) mapLead.get("lead_name"))){
+			addLeadInfo(mapLead,vmList,count);
 		}
-		List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+lVm.leadType+"'");
-		if(custForm.size() > 0){
-			JsonParser parser = new JsonParser();
-			JsonArray json = (JsonArray) parser.parse(custForm.get(0).get("json_data").toString());
-			List<CustomForm> frmList = new ArrayList<>();
-			for(int i = 0; i < json.size(); i++)
-			{
-			      JsonObject objects = (JsonObject) json.get(i);
-			      CustomForm frm = new CustomForm();
-			      frm.component = objects.getAsJsonObject().get("component").getAsString();
-			      frm.label = objects.getAsJsonObject().get("label").getAsString();
-			      frm.required = objects.getAsJsonObject().get("required").getAsBoolean();
-			      frm.key = objects.getAsJsonObject().get("key").getAsString();
-			      frm.index = objects.getAsJsonObject().get("index").getAsLong();
-			      frm.editable = objects.getAsJsonObject().get("editable").getAsBoolean();
-			      frmList.add(frm);
-			}    
-
-		      lVm.custForm = frmList;
-		      System.out.println(lVm.custForm.size());
+	}
+	for(Map mapLead : rowsLead) {
+		if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
+			addLeadInfo(mapLead,vmList,count);
 		}
-		vmList.add(lVm);
-		count++;
 		if(count == 5){
-			vmSub.leadType = vmList;
 			break;
 		}
 	}
-	
+	vmSub.leadType = vmList;
+	vmSub.leadCount = vmList.size();
 	List<Map<String, Object>> rows1 = jdbcTemplate.queryForList("select * from collection_images where collection_id = '"+vmSub.id+"'");
 	for(Map map1 : rows1) {
 		ManufacturersImgVM mVm = new ManufacturersImgVM();
@@ -234,6 +213,42 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 	//9028746476
 	
 	manufacturersUrls.add(vmSub);
+	
+}
+
+
+
+public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
+	LeadTypeVM lVm = new LeadTypeVM();
+	lVm.id = (Long) mapLead.get("id");
+	lVm.leadType = (String) mapLead.get("lead_name");
+	if(mapLead.get("hide_website") != null){
+		lVm.showOnWebsite = (Boolean) mapLead.get("hide_website");
+	}
+	List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+lVm.leadType+"'");
+	if(custForm.size() > 0){
+		JsonParser parser = new JsonParser();
+		JsonArray json = (JsonArray) parser.parse(custForm.get(0).get("json_data").toString());
+		List<CustomForm> frmList = new ArrayList<>();
+		for(int i = 0; i < json.size(); i++)
+		{
+		      JsonObject objects = (JsonObject) json.get(i);
+		      CustomForm frm = new CustomForm();
+		      frm.component = objects.getAsJsonObject().get("component").getAsString();
+		      frm.label = objects.getAsJsonObject().get("label").getAsString();
+		      frm.required = objects.getAsJsonObject().get("required").getAsBoolean();
+		      frm.key = objects.getAsJsonObject().get("key").getAsString();
+		      frm.index = objects.getAsJsonObject().get("index").getAsLong();
+		      frm.editable = objects.getAsJsonObject().get("editable").getAsBoolean();
+		      frmList.add(frm);
+		}    
+
+	      lVm.custForm = frmList;
+	      System.out.println(lVm.custForm.size());
+	}
+	vmList.add(lVm);
+	count++;
+	
 	
 }
 

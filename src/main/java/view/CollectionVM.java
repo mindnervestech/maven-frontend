@@ -18,6 +18,7 @@ public class CollectionVM {
 	public List<ManufacturersImgVM> imgs;
 	public List<ManufacturersChildVM> submenu;
 	public List<LeadTypeVM> leadType;
+	public int leadCount;
 	public List<CollectionVM> childCollection;
 	public String custForm;
 	
