@@ -19,7 +19,7 @@ public class CollectionVM {
 	public List<ManufacturersChildVM> submenu;
 	public List<LeadTypeVM> leadType;
 	public List<CollectionVM> childCollection;
-	
+	public String custForm;
 	
 	
 	
