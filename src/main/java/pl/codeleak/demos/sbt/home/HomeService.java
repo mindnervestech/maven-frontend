@@ -57,7 +57,7 @@ class HomeService {
 		DateFormat timeDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
 		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_collection where");
-		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+1+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+1+"','"+managerId.get(0).get("id")+"')");
+		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+35+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+managerId.get(0).get("id")+"')");
 		
 	}
 	
@@ -175,7 +175,7 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 	}else{
 		vmSub.fileType = "png";
 	}
-	List<Map<String, Object>> rowsLead = jdbcTemplate.queryForList("select * from lead_type where deleted = 0");
+	List<Map<String, Object>> rowsLead = jdbcTemplate.queryForList("select * from lead_type where deleted = 0 and shows = 1");
 	List<LeadTypeVM> vmList = new ArrayList<LeadTypeVM>();
 	int count = 0;
 	for(Map mapLead : rowsLead) {

@@ -15,15 +15,16 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.contactData.phone = $scope.contact.phone;
 		$scope.contactData.message = $scope.contact.message;
 		$scope.contactData.productid = $scope.productid;
+		if($scope.productid == undefined){
+			$scope.contactData.productid = 0;
+		}
 		$scope.contactData.urlName = fileName[1];
 		console.log($scope.contactData);
 		 console.log("save conttact");
 		 	$("#submitDemo").attr("disabled", true);
 			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
-				//notificationService.success("Contact Us Submit Successfully");
 				 $scope.contact = {};
-			 /*}).error(function(){
-					console.log("Error.................");*/
+			 
 			 });
 	 };
 	 
