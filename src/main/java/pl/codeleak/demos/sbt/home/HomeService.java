@@ -14,8 +14,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import view.CollectionVM;
 import view.ContactVM;
+import view.CustomForm;
 import view.LeadTypeVM;
 import view.MainCollectionVM;
 import view.ManufacturersImgVM;
@@ -178,6 +184,27 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 		lVm.leadType = (String) mapLead.get("lead_name");
 		if(mapLead.get("hide_website") != null){
 			lVm.showOnWebsite = (Boolean) mapLead.get("hide_website");
+		}
+		List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+lVm.leadType+"'");
+		if(custForm.size() > 0){
+			JsonParser parser = new JsonParser();
+			JsonArray json = (JsonArray) parser.parse(custForm.get(0).get("json_data").toString());
+			List<CustomForm> frmList = new ArrayList<>();
+			for(int i = 0; i < json.size(); i++)
+			{
+			      JsonObject objects = (JsonObject) json.get(i);
+			      CustomForm frm = new CustomForm();
+			      frm.component = objects.getAsJsonObject().get("component").getAsString();
+			      frm.label = objects.getAsJsonObject().get("label").getAsString();
+			      frm.required = objects.getAsJsonObject().get("required").getAsBoolean();
+			      frm.key = objects.getAsJsonObject().get("key").getAsString();
+			      frm.index = objects.getAsJsonObject().get("index").getAsLong();
+			      frm.editable = objects.getAsJsonObject().get("editable").getAsBoolean();
+			      frmList.add(frm);
+			}    
+
+		      lVm.custForm = frmList;
+		      System.out.println(lVm.custForm.size());
 		}
 		vmList.add(lVm);
 		count++;
