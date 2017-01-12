@@ -261,6 +261,26 @@
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
+					              <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Name</div>
+						                <input type="text" ng-model="contact.name" required="required"/>
+						          </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Email</div>
+						                <input type="text" ng-model="contact.email" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Phone</div>
+						                <input type="text" ng-model="contact.phone" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Zipcode</div>
+						                <input type="text" ng-model="contact.zipcode" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Message</div>
+						                <textarea rows="2"  ng-model="contact.message" required="required"></textarea>
+						           </label>
 					              <div th:each="custFrm : ${lead.custForm}">
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='textInput'">
 						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
