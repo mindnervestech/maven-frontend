@@ -10,6 +10,8 @@ public class LeadTypeVM {
 	public String actionTitle;
 	public Boolean showOnWebsite;
 	public String confirmationMsg;
+	public String pdfDownload;
+	public String pdfId;
 	public List<CustomForm> custForm;
 	
 }

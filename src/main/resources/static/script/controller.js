@@ -55,6 +55,8 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.contactData.customData = $scope.customList;
 		if($scope.productid == undefined){
 			$scope.contactData.productid = 0;
+		}else{
+			$scope.contactData.productid = $scope.productid;
 		}
 		$scope.contactData.urlName = fileName[1];
 		console.log($scope.contactData);
