@@ -7,7 +7,9 @@ public class LeadTypeVM {
 
 	public Long id;
 	public String leadType;
+	public String actionTitle;
 	public Boolean showOnWebsite;
+	public String confirmationMsg;
 	public List<CustomForm> custForm;
 	
 }

@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 public class ContactVM {
 
 	public String name;
@@ -7,8 +9,11 @@ public class ContactVM {
 	public String message;
 	public String phone;
 	public String urlName;
+	public String zipcode;
 	public String productid;
+	public String leadTypeId;
 	public Long locations_id;
+	public List<KeyValueDataVM> customData;
 	
 	
 	
@@ -54,6 +59,18 @@ public class ContactVM {
 	}
 	public void setLocations_id(Long locations_id) {
 		this.locations_id = locations_id;
+	}
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public List<KeyValueDataVM> getCustomData() {
+		return customData;
+	}
+	public void setCustomData(List<KeyValueDataVM> customData) {
+		this.customData = customData;
 	}
 	
 }

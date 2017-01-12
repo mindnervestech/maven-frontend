@@ -8,24 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import view.CollectionVM;
 import view.ContactVM;
 import view.CustomForm;
+import view.CustomizationFormVm;
+import view.KeyValueDataVM;
 import view.LeadTypeVM;
 import view.MainCollectionVM;
 import view.ManufacturersImgVM;
 import view.WebAnalyticsVM;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Controller
 class HomeService {
@@ -57,11 +57,39 @@ class HomeService {
 		DateFormat timeDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
 		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_collection where");
-		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+35+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+managerId.get(0).get("id")+"')");
-		
+		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+Long.parseLong(vm.leadTypeId)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+managerId.get(0).get("id")+"')");
+		Long id = (long) jdbcTemplate.queryForInt("select max(id) from request_more_info");
+		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
-	
+	 private static void saveCustomData(Long infoId,List<KeyValueDataVM> customData,Long leadtype,JdbcTemplate jdbcTemplate) {
+	    	for(KeyValueDataVM custom:customData){
+	    		String saveCrm = null;
+	    		String displayGrid = null;
+	    		String displayWebsite = null;
+	    		if(custom.savecrm == null){
+    				saveCrm = "false";
+    			}else{
+    				saveCrm = custom.savecrm;
+    			}
+    			
+    			if(custom.displayGrid == null){
+    				displayGrid = "false";
+    			}else{
+    				displayGrid = custom.displayGrid;
+    			}
+    			
+    			if(custom.displayWebsite == null){
+    				displayWebsite = "false";
+    			}else{
+    				displayWebsite = custom.displayWebsite;
+    			}
+	    		
+	    		jdbcTemplate.update("INSERT INTO customization_data_value(key_value,value,save_crm,display_grid,display_website,form_name,lead_type,lead_id,field_id,locations_id) VALUES('"+custom.key+"','"+custom.value+"','"+saveCrm+"','"+displayGrid+"','"+displayWebsite+"','"+custom.formName+"','"+leadtype+"','"+infoId+"','"+custom.fieldId+"','"+16L+"')");
+			}
+	    	
+			
+	    }
 	
 	public void AddCollectionData(Map mapSub,CollectionVM cVm,List<CollectionVM> coll) {
 		String title = (String) mapSub.get("title");
@@ -216,18 +244,61 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 	
 }
 
+public CustomizationFormVm getLeadForm(Long id){
+	List<Map<String, Object>> leadType = jdbcTemplate.queryForList("select * from lead_type where id = '"+id+"'");
+	String leadT = null;
+	if(leadType.size() > 0){
+		leadT =(String) leadType.get(0).get("lead_name");
+	}
+	
+	CustomizationFormVm custF = new CustomizationFormVm();
+	List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+leadT+"'");
+	if(custForm.size() > 0){
+		
+		if(custForm.get(0).get("json_data") != null){
+			custF.jsonData = (String) custForm.get(0).get("json_data");
+		}
+		if(custForm.get(0).get("json_data_add") != null){
+			custF.jsonDataAdd = (String) custForm.get(0).get("json_data_add");
+		}
+		/*if(custForm.get(0).get("additional_data") != null){
+			custF.additionalData = (Boolean) custForm.get(0).get("additional_data");
+		}*/
+		if(custForm.get(0).get("data_type") != null){
+			custF.dataType = (String) custForm.get(0).get("data_type");
+		}
+		
+		
+		
+	}
+	
+	return custF;
+}
 
 
 public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	LeadTypeVM lVm = new LeadTypeVM();
 	lVm.id = (Long) mapLead.get("id");
 	lVm.leadType = (String) mapLead.get("lead_name");
+	if(mapLead.get("action_title") != null){
+		lVm.actionTitle = (String) mapLead.get("action_title");
+	}else{
+		lVm.actionTitle = (String) mapLead.get("lead_name");
+	}
+	if(mapLead.get("confirmation_msg") != null){
+		lVm.confirmationMsg = (String) mapLead.get("confirmation_msg");
+	}else{
+		lVm.confirmationMsg = "Thank you for submitting your request, our representative will contact you shortly";
+	}
+	
+	
 	if(mapLead.get("hide_website") != null){
 		lVm.showOnWebsite = (Boolean) mapLead.get("hide_website");
 	}
 	List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+lVm.leadType+"'");
 	if(custForm.size() > 0){
 		JsonParser parser = new JsonParser();
+		JsonParser parser1 = new JsonParser();
 		JsonArray json = (JsonArray) parser.parse(custForm.get(0).get("json_data").toString());
 		List<CustomForm> frmList = new ArrayList<>();
 		for(int i = 0; i < json.size(); i++)
@@ -240,6 +311,13 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 		      frm.key = objects.getAsJsonObject().get("key").getAsString();
 		      frm.index = objects.getAsJsonObject().get("index").getAsLong();
 		      frm.editable = objects.getAsJsonObject().get("editable").getAsBoolean();
+		      JsonArray options =((JsonArray) parser1.parse(objects.getAsJsonObject().get("options").toString()));
+		      List<String> optionArray = new ArrayList<String>();
+		      for(int j = 0; j < options.size(); j++)
+				{
+		    	  optionArray.add(options.get(j).toString().replace("\"",""));
+				}
+		      frm.options = optionArray;
 		      frmList.add(frm);
 		}    
 

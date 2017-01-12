@@ -236,15 +236,15 @@
 	              
 	              <div th:if="${menus.fileType}!='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
-	                <a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].leadType}"></a>
+	                <a href="#" data-anchor="request0" class="request-more slide-out-menu" th:if="${menus.leadCount} >= 1" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:text="${menus.leadType[0].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 2" th:text="${menus.leadType[1].leadType}"></a>
+                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:if="${menus.leadCount} >= 2" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[1].id}+ '\')'" th:text="${menus.leadType[1].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 3" th:text="${menus.leadType[2].leadType}"></a>
+                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:if="${menus.leadCount} >= 3" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[2].id}+ '\')'" th:text="${menus.leadType[2].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 4" th:text="${menus.leadType[3].leadType}"></a>
+                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:if="${menus.leadCount} >= 4"  th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[3].id}+ '\')'" th:text="${menus.leadType[3].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].leadType}"></a>
+                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.title}+ '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].leadType}"></a>
                 	<br></br>
 	                <span th:each="lead,rowStat : ${menus.leadType}">	                	
 	                	<div class="gallery-modal modal"></div>
@@ -256,7 +256,7 @@
 					            </div>
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
-					            <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
+					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
 					            <form name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
@@ -264,20 +264,19 @@
 					              <div th:each="custFrm : ${lead.custForm}">
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='textInput'">
 						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
-						                <input type="text" ng-model="contact.name" required="required"/>
+						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" required="required"/>
 						              </label>
 						              
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='select'">
 					                	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
 					                	<div class="select-item">
-					                   		<select name="contacts" ng-model="contact.contact">
-					                    		<option value="phone">Phone</option>
-					                    		<option value="email">Email</option>
+					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}">
+					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
+					                    		<!-- <option value="email">Email</option> -->
 					                  		</select>
 					                	</div>
 					              	</label>
-					              
-					              </div>              
+					              </div>             
 					              <div class="submit-wrap">
 					                <button type="submit" value="submit" id="submitDemo" ng-click="contactus()">Submit</button>
 					              </div>
@@ -291,15 +290,15 @@
 	              
 	              <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
-                	<a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].leadType}"></a>
+                	<a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 2" th:text="${menus.leadType[1].leadType}"></a>
+                	<a href="#" data-anchor="request1" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 2" th:text="${menus.leadType[1].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 3" th:text="${menus.leadType[2].leadType}"></a>
+                	<a href="#" data-anchor="request2" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 3" th:text="${menus.leadType[2].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 4" th:text="${menus.leadType[3].leadType}"></a>
+                	<a href="#" data-anchor="request3" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 4" th:text="${menus.leadType[3].actionTitle}"></a>
                 	<br></br>
-                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].leadType}"></a>
+                	<a href="#" data-anchor="request4" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 5" th:text="${menus.leadType[4].actionTitle}"></a>
                 	<br></br>
 	                <span th:each="lead,rowStat : ${menus.leadType}">	                	
 	                	<div class="gallery-modal modal"></div>
@@ -311,23 +310,43 @@
 					            </div>
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
-					            <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
+					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
 					            <form name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
+					              <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Name</div>
+						                <input type="text" ng-model="contact.name" required="required"/>
+						          </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Email</div>
+						                <input type="text" ng-model="contact.email" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Phone</div>
+						                <input type="text" ng-model="contact.phone" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Zipcode</div>
+						                <input type="text" ng-model="contact.zipcode" required="required"/>
+						           </label>
+						           <label class="scroll-item__group">
+						              	<div class="scroll-item__text">Message</div>
+						                <textarea rows="2"  ng-model="contact.message" required="required"></textarea>
+						           </label>
 					              <div th:each="custFrm : ${lead.custForm}">
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='textInput'">
 						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
-						                <input type="text" ng-model="contact.name" required="required"/>
+						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" required="required"/>
 						              </label>
 						              
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='select'">
 					                	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
 					                	<div class="select-item">
-					                   		<select name="contacts" ng-model="contact.contact">
-					                    		<option value="phone">Phone</option>
-					                    		<option value="email">Email</option>
+					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}">
+					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
+					                    		<!-- <option value="email">Email</option> -->
 					                  		</select>
 					                	</div>
 					              	</label>

@@ -1,9 +1,9 @@
 package pl.codeleak.demos.sbt.home;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,11 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import view.CollectionVM;
 import view.ContactVM;
-import view.MainCollectionVM;
+import view.CustomizationFormVm;
 import view.WebAnalyticsVM;
 
 import com.planetj.servlet.filter.compression.CompressingFilter;
@@ -75,5 +75,14 @@ class HomeController {
 		homeService.getContactInfoDetail(vm);
 	
 	}
-        
+    
+    @RequestMapping(value = "/getLeadTypeForm", method = RequestMethod.GET)
+	@ResponseBody
+	public CustomizationFormVm getLeadTypeForm(HttpServletRequest request,@RequestParam("id") Long id) {
+    	System.out.println("page..........");
+		System.out.println(id);
+		CustomizationFormVm cust = homeService.getLeadForm(id);
+		return cust;
+	}
+    
 }
