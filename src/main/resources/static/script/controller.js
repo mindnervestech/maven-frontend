@@ -18,7 +18,9 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		
 		$scope.productid = id;
 	};
-	$scope.contactus = function(){
+	$scope.contactus = function(path,isPdf){
+		console.log(path);
+		console.log(isPdf);
 		$scope.customList = [];
 		var url      = window.location.href;
 		var fileName = url.split("#");
@@ -61,28 +63,15 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.contactData.urlName = fileName[1];
 		console.log($scope.contactData);
 		 console.log("save conttact");
-			
-		 
-		 $.fileDownload('/maven/downloadStatusFile',
-						{	   	
-							   httpMethod : "POST",
-							   data : {
-								   attchId : 6,
-							   }
-						}).done(function(e, response)
-								{
-							console.log("scuuuuuuuuuesss");
-								}).fail(function(e, response)
-								{
-									// failure
-								});
-		
+		 if(isPdf == '1'){
+			 $window.open('http://45.33.50.143:8080/MavenImg/images/16/Customer_Pdf/OFSBRANDS.pdf','_blank');
+		 }
 		 
 		 	$("#submitDemo").attr("disabled", true);
-			 /*$http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
+			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
 				 $scope.contact = {};
-			 
-			 });*/
+				 console.log(isPdf);
+			 });
 	 };
 	 
 });

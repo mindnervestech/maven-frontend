@@ -8,17 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import view.CollectionVM;
 import view.ContactVM;
@@ -66,6 +59,16 @@ class HomeService {
 		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_collection where");
 		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+Long.parseLong(vm.leadTypeId)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+managerId.get(0).get("id")+"')");
 		Long id = (long) jdbcTemplate.queryForInt("select max(id) from request_more_info");
+		List<Map<String, Object>> leadIdData = jdbcTemplate.queryForList("select * from lead_type where id ='"+Long.parseLong(vm.leadTypeId)+"'");
+		if(leadIdData.get(0).get("action_outcomes") != null){
+			String[] parts = leadIdData.get(0).get("action_outcomes").toString().split(",");
+			for(int i=0;i<parts.length;i++){
+				if(parts[i].equals("Automatically add to CRM")){
+					jdbcTemplate.update("INSERT INTO contacts(type,first_name,email,phone) VALUES('Online','"+vm.name+"','"+vm.email+"','"+vm.phone+"')");
+				}
+			}
+		}
+		
 		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
@@ -297,13 +300,15 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	}else{
 		lVm.confirmationMsg = "Thank you for submitting your request, our representative will contact you shortly";
 	}
+	lVm.pdfDownload = "0";
 	if(mapLead.get("action_outcomes") != null){
 		String[] parts = mapLead.get("action_outcomes").toString().split(",");
 		for(int i=0;i<parts.length;i++){
 			if(parts[i].equals("Client downloads PDF file")){
 				lVm.pdfDownload = "1";
-				Long id = (long) jdbcTemplate.queryForInt("select min(id) from customer_pdf");
-				lVm.pdfId = id;
+				List<Map<String, Object>> custPdf = jdbcTemplate.queryForList("select * from customer_pdf");
+				lVm.pdfId = (Long) custPdf.get(0).get("id");
+				lVm.pdfPath = (String) custPdf.get(0).get("pdf_path");
 			}
 		}
 	}
@@ -346,18 +351,18 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	
 	
 }
-
+/*
 public String getSinglePdf(Long id,String imagesserver){
 	String file = null;
 	List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customer_pdf");
 	if(custForm.size() > 0){
 		
 		if(custForm.get(0).get("pdf_path") != null){
-				file = imagesserver+"MavenImg/images/"+ custForm.get(0).get("pdf_path").toString().replace("#","%23");
+				file = "http://45.33.50.143:8080/"+"MavenImg/images/"+ custForm.get(0).get("pdf_path").toString().replace("#","%23");
 		}
 	}	
 	return file;
-}
+}*/
 
 
 

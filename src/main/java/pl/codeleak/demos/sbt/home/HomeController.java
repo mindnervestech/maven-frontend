@@ -1,6 +1,5 @@
 package pl.codeleak.demos.sbt.home;
 
-import java.io.File;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,14 +85,17 @@ class HomeController {
 		return cust;
 	}
     
-    @RequestMapping(value = "/downloadStatusFile", method = RequestMethod.POST)
-	public @ResponseBody FileSystemResource getattchfile()
+  /*  @RequestMapping(value = "/downloadStatusFile", method = RequestMethod.POST)
+	public @ResponseBody FileSystemResource getattchfile(final HttpServletResponse response)
 	{
 		String file = null;
+		response.setHeader("Content-Type", "application/pdf;charset=UTF-8");
+        //response.setHeader("Content-Transfer-Encoding", "binary"); 
+        response.setHeader("Content-Disposition","inline;filename="+"OFSBRANDS.pdf");
 		file = homeService.getSinglePdf(6L,imagesserver);
 		 File files = new File(file);
          //return new FileSystemResource(file);
-		/*ProductVM prodVm = homeService.getSingleProduct(attchId);
+		ProductVM prodVm = homeService.getSingleProduct(attchId);
 		if(prodVm.filePath !=null){
 				file[0] = imagesserver+"furnitureImg/images"+ prodVm.filePath.replace("#","%23");
 		}else{
@@ -103,9 +104,9 @@ class HomeController {
 				file[1] = imagesserver+"furnitureImg/images"+prodVm.cadFilePath.replace("#","%23");
 		}else{
 			file[1] = null;
-		}*/
+		}
 		 return new FileSystemResource(files);
         // return file;
-	}
+	}*/
     
 }

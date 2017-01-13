@@ -298,7 +298,7 @@
 					              	</label>
 					              </div>             
 					              <div class="submit-wrap">
-					                <button type="submit" value="submit" id="submitDemo" ng-click="contactus()">Submit</button>
+					                <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button>
 					              </div>
 					              <div class="invalid">Please fill out the required fields</div>
 					            </form>
@@ -373,7 +373,7 @@
 					              
 					              </div>              
 					              <div class="submit-wrap">
-					                <button type="submit" value="submit" id="submitDemo" ng-click="contactus()">Submit</button>
+					                <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button>
 					              </div>
 					              <div class="invalid">Please fill out the required fields</div>
 					            </form>
