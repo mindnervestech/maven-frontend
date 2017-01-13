@@ -353,8 +353,7 @@ public String getSinglePdf(Long id,String imagesserver){
 	if(custForm.size() > 0){
 		
 		if(custForm.get(0).get("pdf_path") != null){
-				//file = imagesserver+"MavenImg/images/"+ custForm.get(0).get("pdf_path").toString().replace("#","%23");
-			file = custForm.get(0).get("pdf_path").toString().replace("#","%23");
+				file = imagesserver+"MavenImg/images/"+ custForm.get(0).get("pdf_path").toString().replace("#","%23");
 		}
 	}	
 	return file;
