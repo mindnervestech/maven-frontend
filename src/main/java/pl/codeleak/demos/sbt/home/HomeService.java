@@ -65,6 +65,8 @@ class HomeService {
 			for(int i=0;i<parts.length;i++){
 				if(parts[i].equals("Automatically add to CRM")){
 					jdbcTemplate.update("INSERT INTO contacts(type,first_name,email,phone) VALUES('Online','"+vm.name+"','"+vm.email+"','"+vm.phone+"')");
+					Long maxId = (long) jdbcTemplate.queryForInt("select max(contact_id) from contacts");
+					jdbcTemplate.update("INSERT INTO customization_crm(key_value,value,display_grid,form_name,crm_id,field_id,locations_id) VALUES('Nt_crm_group','Form Submission contacts','"+true+"','New Contact','"+maxId+"','"+14800902841L+"','"+16L+"')");
 				}
 			}
 		}
@@ -329,7 +331,14 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 		      CustomForm frm = new CustomForm();
 		      frm.component = objects.getAsJsonObject().get("component").getAsString();
 		      frm.label = objects.getAsJsonObject().get("label").getAsString();
-		      frm.required = objects.getAsJsonObject().get("required").getAsBoolean();
+		      if( objects.getAsJsonObject().get("required") != null){
+		    	  if(objects.getAsJsonObject().get("required").getAsBoolean() == true){
+		    		  frm.required = "required";
+		    	  }else{
+		    		  frm.required = "norequired";
+		    	  }
+		      }
+		      //frm.required = objects.getAsJsonObject().get("required").getAsBoolean();
 		      frm.key = objects.getAsJsonObject().get("key").getAsString();
 		      frm.index = objects.getAsJsonObject().get("index").getAsLong();
 		      frm.editable = objects.getAsJsonObject().get("editable").getAsBoolean();

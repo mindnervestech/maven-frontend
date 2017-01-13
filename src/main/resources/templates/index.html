@@ -257,7 +257,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
+					            <form name="request-form" class="scroll-item__form scroll-item__form_right">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -284,22 +284,28 @@
 					              <div th:each="custFrm : ${lead.custForm}">
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='textInput'">
 						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
-						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" required="required"/>
+						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" th:required='${custFrm.required}'/>
 						              </label>
 						              
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='select'">
 					                	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
 					                	<div class="select-item">
-					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}">
+					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}"  th:required='${custFrm.required}'>
 					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
-					                    		<!-- <option value="email">Email</option> -->
 					                  		</select>
 					                	</div>
 					              	</label>
+					              	<label class="scroll-item__group" th:if="${custFrm.component} =='textArea'">
+						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
+						              	<textarea rows="2"  th:attr="ng-model='contact.customData.'+${custFrm.key}" th:required='${custFrm.required}'></textarea>
+						              </label> 
 					              </div>             
 					              <div class="submit-wrap">
-					                <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button>
+					                <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
+					                 <!-- <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> --> 
+					                <button type="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">Save</button>  
 					              </div>
+					              
 					              <div class="invalid">Please fill out the required fields</div>
 					            </form>
 					          </div>
@@ -331,7 +337,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form name="request" class="scroll-item__form scroll-item__form_right" ng-submit="contactus()">
+					            <form id="request-form" name="request" class="scroll-item__form scroll-item__form_right">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -358,7 +364,7 @@
 					              <div th:each="custFrm : ${lead.custForm}">
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='textInput'">
 						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
-						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" required="required"/>
+						                <input type="text" th:attr="ng-model='contact.customData.'+${custFrm.key}" th:required='${custFrm.required}'/>
 						              </label>
 						              
 						              <label class="scroll-item__group" th:if="${custFrm.component} =='select'">
@@ -366,15 +372,21 @@
 					                	<div class="select-item">
 					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}">
 					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
-					                    		<!-- <option value="email">Email</option> -->
 					                  		</select>
 					                	</div>
 					              	</label>
+					              	 <label class="scroll-item__group" th:if="${custFrm.component} =='textArea'">
+						              	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
+						              	<textarea rows="2"  th:attr="ng-model='contact.customData.'+${custFrm.key}" th:required='${custFrm.required}'></textarea>
+						              </label> 
 					              
 					              </div>              
 					              <div class="submit-wrap">
-					                <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button>
+					                 <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
+					                 <!-- <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> --> 
+					              	 <button type="button" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">Save</button>   
 					              </div>
+					              
 					              <div class="invalid">Please fill out the required fields</div>
 					            </form>
 					          </div>

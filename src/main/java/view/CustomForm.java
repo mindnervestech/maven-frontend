@@ -10,6 +10,6 @@ public class CustomForm {
 	public String key;
 	public String label;
 	public Boolean editable;
-	public Boolean required;
+	public String required;
 	public List<String> options;
 }

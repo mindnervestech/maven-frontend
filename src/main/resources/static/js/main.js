@@ -645,7 +645,7 @@
 	// submit form
 	(function() {
 		$('.scroll-item__form button[type="submit"]').click(function(e) {
-			e.preventDefault();
+			/*e.preventDefault();
 			var isValid = true,
 				currentForm = $(this).parent().parent();
 
@@ -666,7 +666,7 @@
 
 			setTimeout(function() {
 				hideSlideOuts();
-			}, 2000);
+			}, 2000);*/
 		});
 	})();
 
