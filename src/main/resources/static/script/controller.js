@@ -61,11 +61,28 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.contactData.urlName = fileName[1];
 		console.log($scope.contactData);
 		 console.log("save conttact");
+			
+		 
+		 $.fileDownload('/maven/downloadStatusFile',
+						{	   	
+							   httpMethod : "POST",
+							   data : {
+								   attchId : 6,
+							   }
+						}).done(function(e, response)
+								{
+							console.log("scuuuuuuuuuesss");
+								}).fail(function(e, response)
+								{
+									// failure
+								});
+		
+		 
 		 	$("#submitDemo").attr("disabled", true);
-			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
+			 /*$http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
 				 $scope.contact = {};
 			 
-			 });
+			 });*/
 	 };
 	 
 });

@@ -1,5 +1,6 @@
 package pl.codeleak.demos.sbt.home;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +85,27 @@ class HomeController {
 		System.out.println(id);
 		CustomizationFormVm cust = homeService.getLeadForm(id);
 		return cust;
+	}
+    
+    @RequestMapping(value = "/downloadStatusFile", method = RequestMethod.POST)
+	public @ResponseBody FileSystemResource getattchfile()
+	{
+		String file = null;
+		file = homeService.getSinglePdf(6L,imagesserver);
+		 File files = new File(file);
+         //return new FileSystemResource(file);
+		/*ProductVM prodVm = homeService.getSingleProduct(attchId);
+		if(prodVm.filePath !=null){
+				file[0] = imagesserver+"furnitureImg/images"+ prodVm.filePath.replace("#","%23");
+		}else{
+			file[0] = null;
+		}if(prodVm.cadFilePath !=null){
+				file[1] = imagesserver+"furnitureImg/images"+prodVm.cadFilePath.replace("#","%23");
+		}else{
+			file[1] = null;
+		}*/
+		 return new FileSystemResource(files);
+        // return file;
 	}
     
 }

@@ -11,7 +11,7 @@ public class LeadTypeVM {
 	public Boolean showOnWebsite;
 	public String confirmationMsg;
 	public String pdfDownload;
-	public String pdfId;
+	public Long pdfId;
 	public List<CustomForm> custForm;
 	
 }

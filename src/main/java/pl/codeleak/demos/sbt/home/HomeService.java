@@ -8,10 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import view.CollectionVM;
 import view.ContactVM;
@@ -290,6 +297,16 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	}else{
 		lVm.confirmationMsg = "Thank you for submitting your request, our representative will contact you shortly";
 	}
+	if(mapLead.get("action_outcomes") != null){
+		String[] parts = mapLead.get("action_outcomes").toString().split(",");
+		for(int i=0;i<parts.length;i++){
+			if(parts[i].equals("Client downloads PDF file")){
+				lVm.pdfDownload = "1";
+				Long id = (long) jdbcTemplate.queryForInt("select min(id) from customer_pdf");
+				lVm.pdfId = id;
+			}
+		}
+	}
 	
 	
 	if(mapLead.get("hide_website") != null){
@@ -329,6 +346,42 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	
 	
 }
+
+public String getSinglePdf(Long id,String imagesserver){
+	String file = null;
+	List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customer_pdf");
+	if(custForm.size() > 0){
+		
+		if(custForm.get(0).get("pdf_path") != null){
+				//file = imagesserver+"MavenImg/images/"+ custForm.get(0).get("pdf_path").toString().replace("#","%23");
+			file = custForm.get(0).get("pdf_path").toString().replace("#","%23");
+		}
+	}	
+	return file;
+}
+
+
+
+
+/*@RequestMapping(value = "/downloadStatusFile/{prodId}", method = RequestMethod.GET)
+@ResponseBody
+public String getattchfile(final HttpServletResponse response, @PathVariable("prodId") Long attchId)
+{
+	
+	ProductVM prodVm = homeService.getSingleProduct(attchId);
+	
+	 //response.setContentType("application/pdf;charset=UTF-8");
+	 response.setHeader("Content-Type", "application/pdf;charset=UTF-8");
+     //response.setHeader("Content-Transfer-Encoding", "binary"); 
+     response.setHeader("Content-Disposition","inline;filename="+prodVm.fileName);
+	 String path = rootPath+prodVm.filePath;
+     File file = new File(rootPath+prodVm.filePath);
+     System.out.println(path);
+     return path;
+     //return new FileSystemResource(file);
+	
+}*/
+
 
 
 	/*public List<CollectionVM> getAllCollection() {
