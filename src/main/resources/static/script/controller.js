@@ -8,7 +8,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	$scope.manufactureId = function(id,leadTypeId){
 		console.log(leadTypeId);
 		$scope.leadTypeId = leadTypeId;
-		$http({method:'GET',url:'/maven/getLeadTypeForm',params:{id:leadTypeId}})
+		$http({method:'GET',url:'/getLeadTypeForm',params:{id:leadTypeId}})
 		.success(function(data) {
 			console.log(data);
 			$scope.leadTypeForm = data;
