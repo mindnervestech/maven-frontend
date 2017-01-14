@@ -302,15 +302,18 @@ public void addLeadInfo(Map mapLead,List<LeadTypeVM> vmList,int count) {
 	}else{
 		lVm.confirmationMsg = "Thank you for submitting your request, our representative will contact you shortly";
 	}
+	
 	lVm.pdfDownload = "0";
 	if(mapLead.get("action_outcomes") != null){
 		String[] parts = mapLead.get("action_outcomes").toString().split(",");
 		for(int i=0;i<parts.length;i++){
 			if(parts[i].equals("Client downloads PDF file")){
 				lVm.pdfDownload = "1";
-				List<Map<String, Object>> custPdf = jdbcTemplate.queryForList("select * from customer_pdf");
-				lVm.pdfId = (Long) custPdf.get(0).get("id");
-				lVm.pdfPath = (String) custPdf.get(0).get("pdf_path");
+				if(mapLead.get("dowpdf_ids") != null){
+					List<Map<String, Object>> custPdf = jdbcTemplate.queryForList("select * from customer_pdf where id = '"+(Long) mapLead.get("dowpdf_ids")+"'");
+					lVm.pdfId = (Long) custPdf.get(0).get("id");
+					lVm.pdfPath = (String) custPdf.get(0).get("pdf_path");
+				}
 			}
 		}
 	}
