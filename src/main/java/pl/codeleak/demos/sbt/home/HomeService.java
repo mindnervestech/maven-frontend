@@ -1,5 +1,7 @@
 package pl.codeleak.demos.sbt.home;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +28,16 @@ import view.WebAnalyticsVM;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 class HomeService {
@@ -33,9 +45,12 @@ class HomeService {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	
 	 @Value("${spring.datasource.imagesserver}")
 	   public String imagesserver1;
-
+	
+	 @Value("${String.datasource.rootPath}")
+	 public String rootPath;
 	 
 	   public String otherEmailId = "info@flexformsf.com";
 	   public String otherEmailpassword = "Miesiit3360";
@@ -68,13 +83,171 @@ class HomeService {
 					Long maxId = (long) jdbcTemplate.queryForInt("select max(contact_id) from contacts");
 					jdbcTemplate.update("INSERT INTO customization_crm(key_value,value,display_grid,form_name,crm_id,field_id,locations_id) VALUES('Nt_crm_group','Form Submission contacts','"+true+"','New Contact','"+maxId+"','"+14800902841L+"','"+16L+"')");
 				}
+				
 			}
 		}
-		
+		createPdf(vm);
 		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
-	 private static void saveCustomData(Long infoId,List<KeyValueDataVM> customData,Long leadtype,JdbcTemplate jdbcTemplate) {
+	public static void createDir(String pdfRootDir,Long locationId, int lastId) {
+        File file = new File(pdfRootDir +"/"+ locationId +"/"+ "OnlineLead"+"/"+lastId);
+        if (!file.exists()) {
+                file.mkdirs();
+        }
+	}
+	
+	 private void createPdf(ContactVM vm) {
+		 String filepath = null,findpath = null;
+		 int lastId = jdbcTemplate.queryForInt("select MAX(id) from request_more_info");
+			try {
+	            Document document = new Document();
+	            createDir(rootPath, 16L, lastId);
+	            filepath = rootPath + File.separator+ 16 +File.separator+ "OnlineLead"+File.separator+ lastId + File.separator + "onlineLead.pdf";
+	            findpath = "/" + 16L +"/"+ "OnlineLead"+"/"+ lastId + "/" + "onlineLead.pdf";
+	            //UPDATE table_name
+	            //SET column1=value1,column2=value2,...
+	            //WHERE some_column=some_value;
+	            //jdbcTemplate.update("UPDATE trade_in  SET pdf_path='"+findpath+"' where id='"+4+"'");
+	            
+	            PdfWriter pdfWriter = 
+	            PdfWriter.getInstance(document, new FileOutputStream(filepath));
+	             
+	            // Properties
+	            document.addAuthor("Celinio");
+	            document.addCreator("Celinio");
+	            document.addSubject("iText with Maven");
+	                        document.addTitle("Online Lead");
+	                        document.addKeywords("iText, Maven, Java");
+	             
+	            document.open();
+	             
+	           /* Chunk chunk = new Chunk("Fourth tutorial");*/
+	                        Font font = new Font();
+	                        font.setStyle(Font.UNDERLINE);
+	                        font.setStyle(Font.ITALIC);
+	                       /* chunk.setFont(font);*/
+	                      //  chunk.setBackground(Color.BLACK);
+	                       /* document.add(chunk);*/
+	                        
+	                        Font font1 = new Font(FontFamily.HELVETICA, 8, Font.NORMAL,
+	            					BaseColor.BLACK);
+	            			Font font2 = new Font(FontFamily.HELVETICA, 8, Font.BOLD,
+	            					BaseColor.BLACK);            
+	            			
+	            			
+	            			
+	            			PdfPTable Titlemain = new PdfPTable(1);
+	            			Titlemain.setWidthPercentage(100);
+	            			float[] TitlemainWidth = {2f};
+	            			Titlemain.setWidths(TitlemainWidth);
+	            			
+	            			PdfPCell title = new PdfPCell(new Phrase("Online Lead"));
+	            			title.setBorderColor(BaseColor.WHITE);
+	            			title.setBackgroundColor(new BaseColor(255, 255, 255));
+	            			Titlemain.addCell(title);
+	            			
+	            			PdfPTable contactInfo = new PdfPTable(4);
+	            			contactInfo.setWidthPercentage(100);
+	            			float[] contactInfoWidth = {2f,2f,2f,2f};
+	            			contactInfo.setWidths(contactInfoWidth);
+	            			
+	            			PdfPCell firstname = new PdfPCell(new Phrase("First Name:",font1));
+	            			firstname.setBorderColor(BaseColor.WHITE);
+	            			firstname.setBackgroundColor(new BaseColor(255, 255, 255));
+	            			contactInfo.addCell(firstname);
+	            			            			
+	            			PdfPCell firstnameValue = new PdfPCell(new Paragraph(vm.name,font2));
+	            			firstnameValue.setBorderColor(BaseColor.WHITE);
+	            			firstnameValue.setBorderWidth(1f);
+	          			    contactInfo.addCell(firstnameValue);
+	            			
+	            			            			
+	            			PdfPCell phone = new PdfPCell(new Phrase("Phone:",font1));
+	            			phone.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(phone);
+	            			            			
+	            			PdfPCell phoneValue = new PdfPCell(new Paragraph(vm.phone,font2));
+	            			phoneValue.setBorderColor(BaseColor.WHITE);
+	            			phoneValue.setBorderWidth(1f);
+	            			contactInfo.addCell(phoneValue);
+	            			
+	            			PdfPCell email = new PdfPCell(new Phrase("Email",font1));
+	            			email.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(email);
+	            			            			
+	            			PdfPCell emailValue = new PdfPCell(new Paragraph(vm.email,font2));
+	            			emailValue.setBorderColor(BaseColor.WHITE);
+	            			emailValue.setBorderWidth(1f);
+	            			contactInfo.addCell(emailValue);
+	            			
+	            			
+	            			
+	            			//--------------Vehicle Information
+	            			
+	            			PdfPTable vehicleInformationTitle = new PdfPTable(1);
+	            			vehicleInformationTitle.setWidthPercentage(100);
+	            			float[] vehicleInformationTitleWidth = {2f};
+	            			vehicleInformationTitle.setWidths(vehicleInformationTitleWidth);
+	            			
+	            			PdfPCell vehicleInformationTitleValue = new PdfPCell(new Phrase("Collection Information"));
+	            			vehicleInformationTitleValue.setBorderColor(BaseColor.WHITE);
+	            			vehicleInformationTitleValue.setBackgroundColor(new BaseColor(255, 255, 255));
+	            			vehicleInformationTitle.addCell(vehicleInformationTitleValue);
+	            	
+	            		
+	            		
+	            		
+	            			
+	            			
+	            			//----------sub main Table----------	
+	            			
+	            			PdfPTable AddAllTableInMainTable = new PdfPTable(1);
+	            			AddAllTableInMainTable.setWidthPercentage(100);
+	            			float[] AddAllTableInMainTableWidth = {2f};
+	            			AddAllTableInMainTable.setWidths(AddAllTableInMainTableWidth);
+	            		
+	            			PdfPCell hotelVoucherTitlemain1 = new PdfPCell(Titlemain);
+	            			hotelVoucherTitlemain1.setBorder(Rectangle.NO_BORDER);
+	            			AddAllTableInMainTable.addCell(hotelVoucherTitlemain1);
+	            			
+	            			PdfPCell contactInfoData = new PdfPCell(contactInfo);
+	            			contactInfoData.setBorder(Rectangle.NO_BORDER);
+	            			AddAllTableInMainTable.addCell(contactInfoData);
+	            			
+	            			PdfPCell vehicaleInfoTitle = new PdfPCell(vehicleInformationTitle);
+	            			vehicaleInfoTitle.setBorder(Rectangle.NO_BORDER);
+	            			AddAllTableInMainTable.addCell(vehicaleInfoTitle);
+	            			
+	            		
+	            			
+	            		//----------main Table----------	
+	            		
+	            			PdfPTable AddMainTable = new PdfPTable(1);
+	            			AddMainTable.setWidthPercentage(100);
+	            			float[] AddMainTableWidth = {2f};
+	            			AddMainTable.setWidths(AddMainTableWidth);
+	            		
+	            			PdfPCell AddAllTableInMainTable1 = new PdfPCell(AddAllTableInMainTable);
+	            			AddAllTableInMainTable1.setPadding(10);
+	            			AddAllTableInMainTable1.setBorderWidth(1f);
+	            			AddMainTable.addCell(AddAllTableInMainTable1);		
+	            			
+	            			
+	            			document.add(AddMainTable);
+	            			
+	            			           			
+	            			
+	 
+	            document.close();
+	 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		
+	}
+
+	private static void saveCustomData(Long infoId,List<KeyValueDataVM> customData,Long leadtype,JdbcTemplate jdbcTemplate) {
 	    	for(KeyValueDataVM custom:customData){
 	    		String saveCrm = null;
 	    		String displayGrid = null;
