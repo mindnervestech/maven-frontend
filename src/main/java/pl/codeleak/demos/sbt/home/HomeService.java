@@ -64,7 +64,7 @@ class HomeService {
 			String[] parts = leadIdData.get(0).get("action_outcomes").toString().split(",");
 			for(int i=0;i<parts.length;i++){
 				if(parts[i].equals("Automatically add to CRM")){
-					jdbcTemplate.update("INSERT INTO contacts(type,first_name,email,phone) VALUES('Online','"+vm.name+"','"+vm.email+"','"+vm.phone+"')");
+					jdbcTemplate.update("INSERT INTO contacts(type,first_name,email,phone,groups_id) VALUES('Online','"+vm.name+"','"+vm.email+"','"+vm.phone+"','"+18+"')");
 					Long maxId = (long) jdbcTemplate.queryForInt("select max(contact_id) from contacts");
 					jdbcTemplate.update("INSERT INTO customization_crm(key_value,value,display_grid,form_name,crm_id,field_id,locations_id) VALUES('Nt_crm_group','Form Submission contacts','"+true+"','New Contact','"+maxId+"','"+14800902841L+"','"+16L+"')");
 				}
