@@ -257,7 +257,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form id="request-form" name="request-form" class="scroll-item__form scroll-item__form_right">
+					            <form id="request-form" name="request-form" class="scroll-item__form scroll-item__form_right" th:attr="ng-submit='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -304,7 +304,7 @@
 					              <div class="submit-wrap">
 					                <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
 					                 <!-- <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> --> 
-					                <button type="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">Submit</button>  
+					                <button type="submit" id="submitDemo">Submit</button>  
 					              </div>
 					              
 					              <div class="invalid">Please fill out the required fields</div>
