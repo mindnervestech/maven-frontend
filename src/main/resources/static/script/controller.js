@@ -19,6 +19,12 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		$scope.productid = id;
 	};
 	
+	$scope.closePopup = function(){
+		currentForm.parent().parent().addClass('invalid-form');
+		currentForm.parent().parent().removeClass('message-sent');
+		
+	};
+	
 	
 	$scope.contactus = function(path,isPdf,form){
 		console.log(form);
@@ -95,7 +101,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     			 $window.open(path,'_blank');
     		 }
     		 
-    		 	$("#submitDemo").attr("disabled", true);
+    		 	//$("#submitDemo").attr("disabled", true);
     			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
     				 $scope.contact = {};
     				 console.log(isPdf);
