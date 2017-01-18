@@ -233,8 +233,8 @@
 	                <div th:each="imgs,ind : ${menus.imgs}" data-animation="moved" th:attr="data-title=${imgs.title},data-text=${imgs.description}" data-animation-type="onEnter" class="scroll-item__image-wrap scroll-item__image-wrap_bundle scroll-item__image-wrap_bundle-order-3" th:if="${imgs.srNumber} == 1"><img th:src="${imagesserver}+'MavenImg/images'+ ${imgs.path}" alt="image" class="scroll-item__image" /></div>
 	              </div>
 	            
-	              
-	              <div th:if="${menus.fileType}!='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a> 
+	               <!-- th:if="${menus.fileType}!='svg'"  -->
+	              <div data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:if="${menus.fileType}!='svg'" th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="The Senators group" class="scroll-item__logo-image" /></a><a th:if="${menus.fileType}=='svg'" th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
 	                <a href="#" data-anchor="request0" class="request-more slide-out-menu" th:if="${menus.leadCount} >= 1" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:text="${menus.leadType[0].actionTitle}"></a>
                 	<br></br>
@@ -257,7 +257,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form name="request-form" class="scroll-item__form scroll-item__form_right">
+					            <form id="request-form" name="request-form" class="scroll-item__form scroll-item__form_right">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -267,15 +267,15 @@
 						          </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Email</div>
-						                <input type="text" ng-model="contact.email" required="required"/>
+						                <input type="email" ng-model="contact.email" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Phone</div>
-						                <input type="text" ng-model="contact.phone" required="required"/>
+						                <input type="number" ng-model="contact.phone" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Zipcode</div>
-						                <input type="text" ng-model="contact.zipcode" required="required"/>
+						                <input type="number" data-minlength="6" ng-model="contact.zipcode" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Message</div>
@@ -291,6 +291,7 @@
 					                	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
 					                	<div class="select-item">
 					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}"  th:required='${custFrm.required}'>
+					                   			<option value=""></option>
 					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
 					                  		</select>
 					                	</div>
@@ -314,7 +315,7 @@
 	                	</span>
 	              </div>
 	              
-	              <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
+	              <!-- <div th:if="${menus.fileType} =='svg'" data-layout="5" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex"><a th:href="${menus.externalUrlLink}" target="_blank" class="scroll-item__logo-section"><span th:utext='${menus.logoPath}'></span></a> 
 	                <p class="scroll-item__paragraph" th:text="${menus.description}"></p>
                 	<a href="#" data-anchor="request0" class="request-more slide-out-menu" th:attr="ng-click='manufactureId(\''+${menus.id} + '\',\''+${menus.leadType[0].id}+ '\')'" th:if="${menus.leadCount} >= 1" th:text="${menus.leadType[0].actionTitle}"></a>
                 	<br></br>
@@ -337,7 +338,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form id="request-form" name="request" class="scroll-item__form scroll-item__form_right">
+					            <form name="request" class="scroll-item__form scroll-item__form_right">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -347,15 +348,15 @@
 						          </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Email</div>
-						                <input type="text" ng-model="contact.email" required="required"/>
+						                <input type="email" ng-model="contact.email" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Phone</div>
-						                <input type="text" ng-model="contact.phone" required="required"/>
+						                <input type="number" ng-model="contact.phone" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Zipcode</div>
-						                <input type="text" ng-model="contact.zipcode" required="required"/>
+						                <input type="number" data-minlength="6" ng-model="contact.zipcode" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Message</div>
@@ -371,6 +372,7 @@
 					                	<div class="scroll-item__text" th:text="${custFrm.label}"></div>
 					                	<div class="select-item">
 					                   		<select name="contacts" th:attr="ng-model='contact.customData.'+${custFrm.key}">
+					                   			<option value=""></option>
 					                    		<option th:each="opt: ${custFrm.options}" th:value="${opt}" th:text="${opt}"></option>
 					                  		</select>
 					                	</div>
@@ -382,9 +384,9 @@
 					              
 					              </div>              
 					              <div class="submit-wrap">
-					                 <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
-					                 <!-- <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> --> 
-					              	 <button type="button" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">Submit</button>   
+					                 <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> 
+					                 <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> 
+					              	 <button type="button" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request)'">Submit</button>   
 					              </div>
 					              
 					              <div class="invalid">Please fill out the required fields</div>
@@ -393,7 +395,7 @@
 					        </div>
 					      </div>
 	                	</span>
-	              </div>
+	              </div> -->
 	            </div>
             </div>
           </article>

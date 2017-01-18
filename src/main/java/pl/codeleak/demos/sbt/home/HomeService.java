@@ -392,17 +392,56 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 	List<LeadTypeVM> vmList = new ArrayList<LeadTypeVM>();
 	int count = 0;
 	for(Map mapLead : rowsLead) {
-		if("Request More Info".equals((String) mapLead.get("lead_name"))){
-			addLeadInfo(mapLead,vmList,count);
+		if(mapLead.get("profile") == null){
+			if("Request More Info".equals((String) mapLead.get("lead_name"))){
+				addLeadInfo(mapLead,vmList,count);
+			}
+		}else if(mapLead.get("profile").toString().equals("All Collections")){
+			if("Request More Info".equals((String) mapLead.get("lead_name"))){
+				addLeadInfo(mapLead,vmList,count);
+			}
+		}else if(mapLead.get("profile").toString().equals("Select Collections Manually")){
+			if("Request More Info".equals((String) mapLead.get("lead_name"))){
+				String[] collId = mapLead.get("maunfacturers_ids").toString().split(",");
+				for(int i=0;i < collId.length;i++){
+					if(collId[i].equals(mapSub.get("id").toString())){
+						addLeadInfo(mapLead,vmList,count);
+					}
+				}
+			}
+			
 		}
+		
 	}
 	for(Map mapLead : rowsLead) {
-		if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
-			addLeadInfo(mapLead,vmList,count);
-		}
-		if(count == 5){
-			break;
-		}
+			/*if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
+				addLeadInfo(mapLead,vmList,count);
+			}*/
+			
+			if(mapLead.get("profile") == null){
+				if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
+					addLeadInfo(mapLead,vmList,count);
+				}
+			}else if(mapLead.get("profile").toString().equals("All Collections")){
+				if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
+					addLeadInfo(mapLead,vmList,count);
+				}
+			}else if(mapLead.get("profile").toString().equals("Select Collections Manually")){
+				if(!"Request More Info".equals((String) mapLead.get("lead_name"))){
+					String[] collId = mapLead.get("maunfacturers_ids").toString().split(",");
+					for(int i=0;i < collId.length;i++){
+						if(collId[i].equals(mapSub.get("id").toString())){
+							addLeadInfo(mapLead,vmList,count);
+						}
+					}
+				}
+				
+			}
+			
+			if(count == 5){
+				break;
+			}
+		
 	}
 	vmSub.leadType = vmList;
 	vmSub.leadCount = vmList.size();

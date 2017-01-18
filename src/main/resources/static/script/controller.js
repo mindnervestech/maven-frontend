@@ -21,11 +21,17 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	
 	
 	$scope.contactus = function(path,isPdf,form){
-		
+		console.log(form);
 		var isValid = true;
 		currentForm = $("#request-form");
 		console.log(currentForm);
 		currentForm.find('input').each(function() {
+			if ($(this).prop('required') && $(this).val().length < 2) {
+				$(this).addClass('not-valid');
+				isValid = false;
+			}
+		});
+		currentForm.find('textarea').each(function() {
 			if ($(this).prop('required') && $(this).val().length < 2) {
 				$(this).addClass('not-valid');
 				isValid = false;
@@ -37,11 +43,11 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 			return;
 		}
 
-		currentForm.parent().parent().removeClass('invalid-form');
-		currentForm.parent().parent().addClass('message-sent');
 		
 		console.log(isValid);
 		if (isValid) {
+			currentForm.parent().parent().removeClass('invalid-form');
+			currentForm.parent().parent().addClass('message-sent');
             
             $scope.customList = [];
     		var url      = window.location.href;
@@ -93,11 +99,12 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
     				 $scope.contact = {};
     				 console.log(isPdf);
+    				 
     				 /*setTimeout(function() {
-    					hideSlideOuts();
-    				}, 2000);*/
+    						hideSlideOuts();
+    					}, 2000);*/
     			 });
-            
+    			 //$('.m-close').click();
         } else {
         	console.log("ccc");
             $scope.showMsgs = true;
@@ -106,7 +113,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	 };
 	 
 });
-
+//var hideSlideOuts = require('./blocks/slide-outs');
 
 /*
 var isValid = true,
