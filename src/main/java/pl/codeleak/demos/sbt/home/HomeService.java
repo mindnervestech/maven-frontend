@@ -456,14 +456,22 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 		
 		mVm.thumbPath = (String) map1.get("thumb_path");
 		mVm.name = (String) map1.get("image_name");
-		mVm.title = (String) map1.get("title");
-		mVm.description = (String) map1.get("description");
+		if(map1.get("title") == null){
+			mVm.title = "Main title";
+		}else{
+			mVm.title = (String) map1.get("title");
+		}
+		
+		if(map1.get("description") == null){
+			mVm.description = "Lorem ipsum dolor sit amet.";
+		}else{
+			mVm.description = (String) map1.get("description");
+		}
+		
 		manufacturersimgUrls.add(mVm);
 		
 	}
 	vmSub.imgs = manufacturersimgUrls;
-	//9028746476
-	
 	manufacturersUrls.add(vmSub);
 	
 }
