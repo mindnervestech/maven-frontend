@@ -26,10 +26,11 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	};
 	
 	
-	$scope.contactus = function(path,isPdf,form){
+	$scope.saveLeadType = function(path,isPdf,form){
 		console.log(form);
+		console.log($("#"+form));
 		var isValid = true;
-		currentForm = $("#request-form");
+		currentForm = $("#"+form);
 		console.log(currentForm);
 		currentForm.find('input').each(function() {
 			if ($(this).prop('required') && $(this).val().length < 2) {
@@ -48,12 +49,11 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 			currentForm.parent().parent().addClass('invalid-form');
 			return;
 		}
-
+		currentForm.parent().parent().removeClass('invalid-form');
+		currentForm.parent().parent().addClass('message-sent');
 		
 		console.log(isValid);
 		if (isValid) {
-			currentForm.parent().parent().removeClass('invalid-form');
-			currentForm.parent().parent().addClass('message-sent');
             
             $scope.customList = [];
     		var url      = window.location.href;
@@ -97,20 +97,20 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     		$scope.contactData.urlName = fileName[1];
     		console.log($scope.contactData);
     		 console.log("save conttact");
-    		 if(isPdf == '1'){
+    		/* if(isPdf == '1'){
     			 $window.open(path,'_blank');
-    		 }
+    		 }*/
     		 
     		 	//$("#submitDemo").attr("disabled", true);
     			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
     				 $scope.contact = {};
     				 console.log(isPdf);
     				 
-    				 /*setTimeout(function() {
-    						hideSlideOuts();
-    					}, 2000);*/
+    				 setTimeout(function() {
+    					 $('.m-close').click();
+    					 $scope.closePopup();
+    					}, 2000);
     			 });
-    			 //$('.m-close').click();
         } else {
         	console.log("ccc");
             $scope.showMsgs = true;
@@ -118,39 +118,21 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 		
 	 };
 	 
+	 $scope.contactus = function(){
+		 currentForm = $("#contactPage");
+		$scope.contactData.name = $scope.contactUs.name;
+ 		$scope.contactData.email = $scope.contactUs.email;
+ 		$scope.contactData.phone = $scope.contactUs.phone;
+ 		$scope.contactData.message = $scope.contactUs.message;
+ 		$scope.contactData.zipcode = $scope.contactUs.zipcode;
+ 		$scope.contactData.leadTypeId = 0;
+		$scope.contactData.productid = 0;
+		currentForm.parent().parent().removeClass('invalid-form');
+		currentForm.parent().parent().addClass('message-sent');
+		 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
+			 $scope.contactUs = {};
+			
+		 });
+	 }
+	 
 });
-//var hideSlideOuts = require('./blocks/slide-outs');
-
-/*
-var isValid = true,
-currentForm = $("#request-form");
-//console.log(currentForm);
-currentForm.find('input').each(function() {
-	//console.log($(this));
-	if ($(this).prop('required') && $(this).val().length < 2) {
-		$(this).addClass('not-valid');
-		isValid = false;
-	}
-	if($(this).prop('type') == "email"){
-		console.log("emailllllllllll");
-		console.log($(this).val());
-		$(this).addClass('not-valid');
-		isValid = false;
-	}
-});
-currentForm.find('textarea').each(function() {
-	if ($(this).prop('required') && $(this).val().length < 2) {
-		$(this).addClass('not-valid');
-		isValid = false;
-	}
-});
-currentForm.find('select').each(function() {
-	if ($(this).prop('required') && $(this).val().length < 2) {
-		$(this).addClass('not-valid');
-		isValid = false;
-	}
-});
-if (!isValid) {
-	currentForm.parent().parent().addClass('invalid-form');
-	return;
-}*/

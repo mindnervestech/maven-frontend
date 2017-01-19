@@ -257,7 +257,7 @@
 					            
 					            <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
 					            <h2 class="scroll-item__subheading message-sent__heading" th:text="${lead.confirmationMsg}"></h2>
-					            <form id="request-form" name="request-form" class="scroll-item__form scroll-item__form_right" th:attr="ng-submit='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request-form)'">
+					            <form th:id="'request'+${rowStat.index}" name="request-form" class="scroll-item__form scroll-item__form_right" th:attr="ng-submit='saveLeadType(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',\''+'request'+${rowStat.index}+'\')'">
 					              <div class="next-step">
 					                <div class="fa fa-arrow-right"></div>
 					              </div>
@@ -275,7 +275,8 @@
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Zipcode</div>
-						                <input type="text" maxlength="6" minlength="6" ng-model="contact.zipcode" required="required"/>
+						              	<!-- maxlength="6" minlength="6" -->
+						                <input type="text" ng-model="contact.zipcode" required="required"/>
 						           </label>
 						           <label class="scroll-item__group">
 						              	<div class="scroll-item__text">Message</div>
@@ -302,7 +303,7 @@
 						              </label> 
 					              </div>             
 					              <div class="submit-wrap">
-					                <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
+					                <!-- <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='saveLeadType(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> --> 
 					                 <!-- <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> --> 
 					                <button type="submit" id="submitDemo">Submit</button>  
 					              </div>
@@ -384,9 +385,9 @@
 					              
 					              </div>              
 					              <div class="submit-wrap">
-					                 <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> 
+					                 <button type="submit" value="submit" id="submitDemo" th:attr="ng-click='saveLeadType(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\')'">Submit</button> 
 					                 <input type="submit" class="buttonStyle" value="Submit" id="submitDemo" /> 
-					              	 <button type="button" id="submitDemo" th:attr="ng-click='contactus(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request)'">Submit</button>   
+					              	 <button type="button" id="submitDemo" th:attr="ng-click='saveLeadType(\''+${imagesserver}+'MavenImg/images/'+ ${lead.pdfPath} + '\',\''+${lead.pdfDownload}+'\',request)'">Submit</button>   
 					              </div>
 					              
 					              <div class="invalid">Please fill out the required fields</div>
@@ -444,37 +445,37 @@
                 <h2 class="scroll-item__subheading scroll-item__subheading_form">Thank you for your interest</h2>
                 <h2 class="scroll-item__subheading message-sent__heading">Thank you for submitting your request, our representative will contact you shortly</h2>
                
-                <form name="request" ng-submit="contactus()" class="scroll-item__form scroll-item__form_right">
+                <form id="contactPage" name="request" ng-submit="contactus()" class="scroll-item__form scroll-item__form_right">
                   <div class="next-step">
                     <div class="fa fa-arrow-right"></div>
                   </div>
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Name</div>
-                    <input type="text" ng-model="contact.name" required="required"/>
+                    <input type="text" ng-model="contactUs.name" required="required"/>
                   </label>
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Email</div>
-                    <input type="text" ng-model="contact.email" required="required"/>
+                    <input type="email" ng-model="contactUs.email" required="required"/>
                   </label>
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Phone</div>
-                    <input type="text" ng-model="contact.phone" required="required"/>
+                    <input type="number" ng-model="contactUs.phone" required="required"/>
                   </label>
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Message</div>
-                    <textarea type="text" row="1" ng-model="contact.message" required="required"></textarea>
+                    <textarea type="text" row="1" ng-model="contactUs.message" required="required"></textarea>
                   </label>
                   <label class="scroll-item__group">
                     <div class="scroll-item__text">Method of contact</div>
                     <div class="select-item">
-                      <select name="contacts" ng-model="contact.contact">
+                      <select name="contacts" ng-model="contactUs.contact">
                         <option value="phone">Phone</option>
                         <option value="email">Email</option>
                       </select>
                     </div>
                   </label>
                   <div class="submit-wrap">
-                    <button type="submit" value="submit" id="submitDemo" ng-click="contactus()">Submit</button>
+                    <button type="submit" value="submit" id="submitDemo">Submit</button>
                   </div>
                   <div class="invalid">Please fill out the required fields</div>
                 </form>
