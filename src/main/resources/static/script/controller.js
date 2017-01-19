@@ -97,9 +97,9 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     		$scope.contactData.urlName = fileName[1];
     		console.log($scope.contactData);
     		 console.log("save conttact");
-    		/* if(isPdf == '1'){
+    		 if(isPdf == '1'){
     			 $window.open(path,'_blank');
-    		 }*/
+    		 }
     		 
     		 	//$("#submitDemo").attr("disabled", true);
     			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
