@@ -27,8 +27,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
 	
 	
 	$scope.saveLeadType = function(path,isPdf,form){
-		console.log(form);
-		console.log($("#"+form));
+		console.log(path);
 		var isValid = true;
 		currentForm = $("#"+form);
 		console.log(currentForm);
