@@ -457,13 +457,13 @@ public void AddCollectionDataList(List<CollectionVM> manufacturersUrls,
 		mVm.thumbPath = (String) map1.get("thumb_path");
 		mVm.name = (String) map1.get("image_name");
 		if(map1.get("title") == null){
-			mVm.title = "Main title";
+			//mVm.title = "Main title";
 		}else{
 			mVm.title = (String) map1.get("title");
 		}
 		
 		if(map1.get("description") == null){
-			mVm.description = "Lorem ipsum dolor sit amet.";
+			//mVm.description = "Lorem ipsum dolor sit amet.";
 		}else{
 			mVm.description = (String) map1.get("description");
 		}
