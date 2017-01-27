@@ -101,6 +101,16 @@ class HomeService {
 		 String filepath = null,findpath = null;
 		 int lastId = jdbcTemplate.queryForInt("select MAX(id) from request_more_info");
 			try {
+				
+				Date date = new Date();
+				DateFormat timeFormat = new SimpleDateFormat("HH:mm:dd");
+				DateFormat timeDate = new SimpleDateFormat("yyyy-MM");
+				String productName = "";
+				List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from add_collection where id='"+Long.parseLong(vm.productid)+"'");
+				for(Map map : rows) {
+					productName = (String) map.get("title");
+				}
+				
 	            Document document = new Document();
 	            createDir(rootPath, 16L, lastId);
 	            filepath = rootPath + File.separator+ 16 +File.separator+ "OnlineLead"+File.separator+ lastId + File.separator + "onlineLead.pdf";
@@ -152,7 +162,7 @@ class HomeService {
 	            			float[] contactInfoWidth = {2f,2f,2f,2f};
 	            			contactInfo.setWidths(contactInfoWidth);
 	            			
-	            			PdfPCell firstname = new PdfPCell(new Phrase("First Name:",font1));
+	            			PdfPCell firstname = new PdfPCell(new Phrase("Name:",font1));
 	            			firstname.setBorderColor(BaseColor.WHITE);
 	            			firstname.setBackgroundColor(new BaseColor(255, 255, 255));
 	            			contactInfo.addCell(firstname);
@@ -172,20 +182,47 @@ class HomeService {
 	            			phoneValue.setBorderWidth(1f);
 	            			contactInfo.addCell(phoneValue);
 	            			
-	            			PdfPCell email = new PdfPCell(new Phrase("Email",font1));
-	            			email.setBorderColor(BaseColor.WHITE);
-	            			contactInfo.addCell(email);
+	            			PdfPCell workPhone = new PdfPCell(new Phrase("Email:",font1));
+	            			workPhone.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(workPhone);
 	            			            			
-	            			PdfPCell emailValue = new PdfPCell(new Paragraph(vm.email,font2));
-	            			emailValue.setBorderColor(BaseColor.WHITE);
-	            			emailValue.setBorderWidth(1f);
-	            			contactInfo.addCell(emailValue);
+	            			PdfPCell workPhoneValue = new PdfPCell(new Paragraph(vm.email,font2));
+	            			workPhoneValue.setBorderColor(BaseColor.WHITE);
+	            			workPhoneValue.setBorderWidth(1f);
+	            			contactInfo.addCell(workPhoneValue);
+	            			
+	            			PdfPCell dateV = new PdfPCell(new Phrase("Date",font1));
+	            			dateV.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(dateV);
+	            			
+	            			PdfPCell dateValue = new PdfPCell(new Paragraph(timeDate.format(date),font2));
+	            			dateValue.setBorderColor(BaseColor.WHITE);
+	            			dateValue.setBorderWidth(1f);
+	            			contactInfo.addCell(dateValue);
+	            			
+	            			PdfPCell msgTitle = new PdfPCell(new Phrase("Message",font1));
+	            			msgTitle.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(msgTitle);
+	            			
+	            			PdfPCell msgValue = new PdfPCell(new Paragraph(vm.message,font2));
+	            			msgValue.setBorderColor(BaseColor.WHITE);
+	            			msgValue.setBorderWidth(1f);
+	            			contactInfo.addCell(msgValue);
+	            			
+	            			PdfPCell blankTitle = new PdfPCell(new Phrase("Collection",font1));
+	            			blankTitle.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(blankTitle);
+	            			
+	            			PdfPCell blankValue = new PdfPCell(new Paragraph(productName,font2));
+	            			blankValue.setBorderColor(BaseColor.WHITE);
+	            			blankValue.setBorderWidth(1f);
+	            			contactInfo.addCell(blankValue);
 	            			
 	            			
 	            			
 	            			//--------------Vehicle Information
 	            			
-	            			PdfPTable vehicleInformationTitle = new PdfPTable(1);
+	            			/*PdfPTable vehicleInformationTitle = new PdfPTable(1);
 	            			vehicleInformationTitle.setWidthPercentage(100);
 	            			float[] vehicleInformationTitleWidth = {2f};
 	            			vehicleInformationTitle.setWidths(vehicleInformationTitleWidth);
@@ -193,11 +230,7 @@ class HomeService {
 	            			PdfPCell vehicleInformationTitleValue = new PdfPCell(new Phrase("Collection Information"));
 	            			vehicleInformationTitleValue.setBorderColor(BaseColor.WHITE);
 	            			vehicleInformationTitleValue.setBackgroundColor(new BaseColor(255, 255, 255));
-	            			vehicleInformationTitle.addCell(vehicleInformationTitleValue);
-	            	
-	            		
-	            		
-	            		
+	            			vehicleInformationTitle.addCell(vehicleInformationTitleValue);*/
 	            			
 	            			
 	            			//----------sub main Table----------	
@@ -215,9 +248,9 @@ class HomeService {
 	            			contactInfoData.setBorder(Rectangle.NO_BORDER);
 	            			AddAllTableInMainTable.addCell(contactInfoData);
 	            			
-	            			PdfPCell vehicaleInfoTitle = new PdfPCell(vehicleInformationTitle);
+	            			/*PdfPCell vehicaleInfoTitle = new PdfPCell(vehicleInformationTitle);
 	            			vehicaleInfoTitle.setBorder(Rectangle.NO_BORDER);
-	            			AddAllTableInMainTable.addCell(vehicaleInfoTitle);
+	            			AddAllTableInMainTable.addCell(vehicaleInfoTitle);*/
 	            			
 	            		
 	            			
