@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.text.DefaultEditorKit.CutAction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,7 +88,7 @@ class HomeService {
 				
 			}
 		}
-		createPdf(vm);
+		createPdf(vm, leadIdData);
 		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
@@ -97,7 +99,7 @@ class HomeService {
         }
 	}
 	
-	 private void createPdf(ContactVM vm) {
+	 private void createPdf(ContactVM vm ,List<Map<String, Object>> leadIdData) {
 		 String filepath = null,findpath = null;
 		 int lastId = jdbcTemplate.queryForInt("select MAX(id) from request_more_info");
 			try {
@@ -209,16 +211,68 @@ class HomeService {
 	            			msgValue.setBorderWidth(1f);
 	            			contactInfo.addCell(msgValue);
 	            			
-	            			PdfPCell blankTitle = new PdfPCell(new Phrase("Collection",font1));
-	            			blankTitle.setBorderColor(BaseColor.WHITE);
-	            			contactInfo.addCell(blankTitle);
+	            			PdfPCell zipTitle = new PdfPCell(new Phrase("ZipCode",font1));
+	            			zipTitle.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(zipTitle);
 	            			
-	            			PdfPCell blankValue = new PdfPCell(new Paragraph(productName,font2));
-	            			blankValue.setBorderColor(BaseColor.WHITE);
-	            			blankValue.setBorderWidth(1f);
-	            			contactInfo.addCell(blankValue);
+	            			PdfPCell zipValue = new PdfPCell(new Paragraph(vm.zipcode,font2));
+	            			zipValue.setBorderColor(BaseColor.WHITE);
+	            			zipValue.setBorderWidth(1f);
+	            			contactInfo.addCell(zipValue);
+	            			
+	            			PdfPCell collTitle = new PdfPCell(new Phrase("Collection",font1));
+	            			collTitle.setBorderColor(BaseColor.WHITE);
+	            			contactInfo.addCell(collTitle);
+	            			
+	            			PdfPCell collValue = new PdfPCell(new Paragraph(productName,font2));
+	            			collValue.setBorderColor(BaseColor.WHITE);
+	            			collValue.setBorderWidth(1f);
+	            			contactInfo.addCell(collValue);
 	            			
 	            			
+	            			List<Map<String, Object>> custForm = jdbcTemplate.queryForList("select * from customization_form where data_type = '"+leadIdData.get(0).get("lead_name")+"'");
+	            			if(custForm.size() > 0){
+	            				JsonParser parser = new JsonParser();
+	            				JsonArray json = (JsonArray) parser.parse(custForm.get(0).get("json_data").toString());
+	            				for(int i = 0; i < json.size(); i++)
+	            				{
+	            				      JsonObject objects = (JsonObject) json.get(i);
+	            				      for(KeyValueDataVM custom:vm.customData){
+	            				    	  if(objects.getAsJsonObject().get("key").getAsString().equals(custom.key)){
+	            				    		    PdfPCell dymTitle = new PdfPCell(new Phrase(objects.getAsJsonObject().get("label").getAsString(),font1));
+	            				    		    dymTitle.setBorderColor(BaseColor.WHITE);
+	            		            			contactInfo.addCell(dymTitle);
+	            		            			
+	            		            			PdfPCell dymValue = new PdfPCell(new Paragraph(custom.value,font2));
+	            		            			dymValue.setBorderColor(BaseColor.WHITE);
+	            		            			dymValue.setBorderWidth(1f);
+	            		            			contactInfo.addCell(dymValue);
+		            				      }
+	            				      }
+	            				      
+	            				     /* frm.label = objects.getAsJsonObject().get("label").getAsString();
+	            				      frm.key = objects.getAsJsonObject().get("key").getAsString();*/
+	            				}    
+	            				if(json.size() % 2 != 0){
+	            					PdfPCell blankTitle = new PdfPCell(new Phrase(".",font1));
+		            				blankTitle.setBorderColor(BaseColor.WHITE);
+			            			contactInfo.addCell(blankTitle);
+			            			
+			            			PdfPCell blankValue = new PdfPCell(new Paragraph("",font2));
+			            			blankValue.setBorderColor(BaseColor.WHITE);
+			            			blankValue.setBorderWidth(1f);
+			            			contactInfo.addCell(blankValue);
+	            				}
+	            			}else{
+	            				PdfPCell blankTitle = new PdfPCell(new Phrase(".",font1));
+	            				blankTitle.setBorderColor(BaseColor.WHITE);
+		            			contactInfo.addCell(blankTitle);
+		            			
+		            			PdfPCell blankValue = new PdfPCell(new Paragraph("",font2));
+		            			blankValue.setBorderColor(BaseColor.WHITE);
+		            			blankValue.setBorderWidth(1f);
+		            			contactInfo.addCell(blankValue);
+	            			}
 	            			
 	            			//--------------Vehicle Information
 	            			
