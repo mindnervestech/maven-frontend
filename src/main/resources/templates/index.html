@@ -84,6 +84,7 @@
             <li class="social__item"><a href="#" class="social__link social__link_facebook"></a></li>
             <li class="social__item"><a href="#" class="social__link social__link_twitter"></a></li>
             <li class="social__item"><a href="#" class="social__link social__link_pinterest"></a></li>
+            <li class="social__item"><a href="#" class="social__link social__link_instagram"></a></li>
           </ul>
         </div>
       </aside>
@@ -95,20 +96,16 @@
           <article id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
             <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="img/Izzy+_MAVEN.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
-                <div class="intro-slider__sub-image"><img data-desktop="img/Izzy+_NOTEXT.png" data-mobile="img/mobile/m-allermuir.jpg" /></div>
+                <div class="intro-slider__image"><img data-desktop="img/Maven1.jpg" data-mobile="img/mobile/m-allermuir.jpg"/></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Maven1.jpg" data-mobile="img/mobile/m-allermuir.jpg"/></div>
               </div>
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="img/Kristalia_MAVEN.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
-                <div class="intro-slider__sub-image"><img data-desktop="img/Kristalia_NoText.png" data-mobile="img/mobile/m-Kristalia.jpg" alt="" /></div>
+                <div class="intro-slider__image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
               </div>
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="img/OFSBrands_MAVEN.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
-                <div class="intro-slider__sub-image"><img data-desktop="img/OFSBrands_NOtext.png" data-mobile="img/mobile/m-OFS.jpg" alt="" /></div>
-              </div>
-              <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="img/PeterPepper_MAVEN.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
-                <div class="intro-slider__sub-image"><img data-desktop="img/PeterPepper_NoText.png" data-mobile="img/mobile/m-PeterPepper.jpg" alt="" /></div>
+                <div class="intro-slider__image"><img data-desktop="img/Maven3.jpg" data-mobile="img/mobile/m-OFS.jpg" alt=""/></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Maven3.jpg" data-mobile="img/mobile/m-OFS.jpg" alt=""/></div>
               </div>
             </div>
           </article>
@@ -182,19 +179,6 @@
               </div>
             </div>
           </article>
-          <!-- <article th:each="menus : ${manufacturersDataList}" th:id="${menus.hrefTitle}" class="scroll-item">
-            <div class="scroll-item__heading-wrap">
-              <h2 class="scroll-item__heading" th:text="${menus.title}"></h2>
-            </div>
-            <div class="scroll-item__columns-wrap scroll-item__columns-wrap_flex">
-              <div data-layout="4" class="scroll-item__full-column scroll-item__full-column_flex">
-                <div data-layout="4" class="scroll-item__image-bundle">
-                  <div data-animation="vertical-parallax-1" data-animation-type="onProgress" data-title="Manufacturers" data-text=" Lorem ipsum." class="scroll-item__image-wrap"><img th:src="${imagesserver}+'MavenImg/images'+ ${menus.logoPath}" alt="Manufacturers" class="scroll-item__image"/></div>
-                </div>
-              </div>
-            </div>
-          </article> -->
-          
           
             <article th:each="menus : ${allCollectionList}" th:id="${menus.hrefTitle}"  class="scroll-item">
             <div th:if="${menus.menuType} == 'MainCollection'">
@@ -398,7 +382,6 @@
               <div data-layout="10" class="scroll-item__full-column scroll-item__text scroll-item__full-column_flex">
                 <div data-layout="12" class="scroll-item__image-bundle">
                   <div data-animation="vertical-parallax-1" data-animation-type="onProgress" class="scroll-item__image-wrap"><img src="img/quickships.png" alt="image" class="scroll-item__image"/>
-                    <div class="quickship-title">QuickShip</div>
                   </div>
                 </div>
                 <div class="brand-grid">
