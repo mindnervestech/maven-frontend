@@ -124,7 +124,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
  		$scope.contactData.phone = $scope.contactUs.phone;
  		$scope.contactData.message = $scope.contactUs.message;
  		$scope.contactData.zipcode = $scope.contactUs.zipcode;
- 		$scope.contactData.leadTypeId = 0;
+ 		$scope.contactData.leadTypeId = 35;
 		$scope.contactData.productid = 0;
 		currentForm.parent().parent().removeClass('invalid-form');
 		currentForm.parent().parent().addClass('message-sent');
