@@ -81,6 +81,8 @@ class HomeService {
 			userValue = Long.parseLong(whichUser.get(0).get("users_id").toString());
 		}else if(whichUser.get(0).get("person_value").equals("Me and all Sales people")){
 			userValue = null;
+		}else if(whichUser.get(0).get("redirect_value").equals("Automatically redirect an online customer requests based on")){
+			userValue = null;
 		}else{
 			userValue = Long.parseLong(managerId.get(0).get("id").toString());
 		}
