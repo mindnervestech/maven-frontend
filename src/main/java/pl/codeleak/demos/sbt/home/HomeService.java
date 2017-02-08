@@ -87,7 +87,12 @@ class HomeService {
 			userValue = Long.parseLong(managerId.get(0).get("id").toString());
 		}
 		//List<Map<String, Object>> productId = jdbcTemplate.queryForList("select * from add_collection where");
-		jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,cust_zip_code,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id,online_or_offline_leads) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.zipcode+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+Long.parseLong(vm.leadTypeId)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+userValue+"','"+1+"')");
+		if(userValue == null){
+			jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,cust_zip_code,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,online_or_offline_leads) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.zipcode+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+Long.parseLong(vm.leadTypeId)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+1+"')");
+		}else{
+			jdbcTemplate.update("INSERT INTO request_more_info(product_id,name,email,cust_zip_code,message,phone,section,locations_id,is_contactus_type,request_date,request_time,confirm_date,confirm_time,premium_flag,assigned_to_id,online_or_offline_leads) VALUES('"+vm.productid+"','"+vm.name+"','"+vm.email+"','"+vm.zipcode+"','"+vm.message+"','"+vm.phone+"','"+vm.urlName+"','"+16+"','"+Long.parseLong(vm.leadTypeId)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+dateFormat.format(date)+"','"+timeDate.format(date)+"','"+0+"','"+userValue+"','"+1+"')");
+		}
+		
 		Long id = (long) jdbcTemplate.queryForInt("select max(id) from request_more_info");
 		List<Map<String, Object>> leadIdData = jdbcTemplate.queryForList("select * from lead_type where id ='"+Long.parseLong(vm.leadTypeId)+"'");
 		if(leadIdData.get(0).get("action_outcomes") != null){
