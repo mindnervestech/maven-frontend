@@ -112,7 +112,7 @@ class HomeService {
 		
 		Long id = (long) jdbcTemplate.queryForInt("select max(id) from request_more_info");
 		List<Map<String, Object>> leadIdData = jdbcTemplate.queryForList("select * from lead_type where id ='"+Long.parseLong(vm.leadTypeId)+"'");
-		if(leadIdData.get(0).get("action_outcomes") != null){
+			if(leadIdData.get(0).get("action_outcomes") != null){
 			String[] parts = leadIdData.get(0).get("action_outcomes").toString().split(",");
 			for(int i=0;i<parts.length;i++){
 				if(parts[i].equals("Automatically add to CRM")){
@@ -134,6 +134,17 @@ class HomeService {
 	private void sendMail(List<Map<String, Object>> leadIdData,ContactVM vm) {
 		
 		List<Map<String, Object>> emailInfo = jdbcTemplate.queryForList("select * from email_details");
+		List<Map<String, Object>> productIdData = null;
+		List<Map<String, Object>> parentIdData = null;
+		if(!vm.productid.equals("0")){
+			productIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+Long.parseLong(vm.productid)+"'");
+		}
+		if(!vm.productid.equals("0")){
+			if(productIdData.get(0).get("parent_id") != null){
+				parentIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+productIdData.get(0).get("parent_id")+"'");
+			}
+		}
+		
 		final String userName = emailInfo.get(0).get("username").toString();
 		final String passward = emailInfo.get(0).get("passward").toString();
 				Properties props = new Properties();
@@ -153,7 +164,7 @@ class HomeService {
 						Message message = new MimeMessage(session);
 						message.setFrom(new InternetAddress(emailId));
 						message.setRecipients(Message.RecipientType.TO,
-								InternetAddress.parse("yogeshpatil424@gmail.com"));
+								InternetAddress.parse("deependrasingh120794@gmail.com"));
 						message.setSubject("Contact Us");
 						Multipart multipart = new MimeMultipart();
 						BodyPart messageBodyPart = new MimeBodyPart();
@@ -171,11 +182,24 @@ class HomeService {
 				        Template t = ve.getTemplate("RequestMoreInfosubmitted.html"); 
 				        VelocityContext context = new VelocityContext();
 				        context.put("urlstring", urlString);
-				        
-				        context.put("leadType", leadIdData.get(0).get("lead_name").toString());
+				        if(vm.leadData.equals("Contact Us")){
+				        	context.put("leadType", "Contact Us");
+				        }else if(vm.leadData.equals("Request More Info")){
+				        	context.put("leadType", leadIdData.get(0).get("lead_name").toString());
+				        }
 				        context.put("name", vm.name);
 				        context.put("email", vm.email);
 				        context.put("phone", vm.phone);
+				        System.out.println("dsssddsdsdsdsdsdd"+productIdData);
+				        
+				        if(productIdData != null){
+				        	context.put("collection", productIdData.get(0).get("title").toString());
+				        }
+				        if(parentIdData != null){
+				        	context.put("subCollection", parentIdData.get(0).get("title").toString());
+				        }else{
+				        	context.put("subCollection","null");
+				        }
 				      /*  context.put("message",  vm.message);
 				        context.put("logoInfo", logo);	  */    
 				        

@@ -65,6 +65,7 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     		$scope.contactData.message = $scope.contact.message;
     		$scope.contactData.zipcode = $scope.contact.zipcode;
     		$scope.contactData.leadTypeId = $scope.leadTypeId;
+    		$scope.contactData.leadData = "Request More Info";
     		console.log($scope.contact.customData);
     		console.log($scope.leadTypeForm);
     		if($scope.contact.customData != null){
@@ -99,7 +100,6 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
     		 if(isPdf == '1'){
     			 $window.open(path,'_blank');
     		 }
-    		 
     		 	//$("#submitDemo").attr("disabled", true);
     			 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
     				 $scope.contact = {};
@@ -126,8 +126,10 @@ app.controller("ContactController", function($scope,$http,$window /*,notificatio
  		$scope.contactData.zipcode = $scope.contactUs.zipcode;
  		$scope.contactData.leadTypeId = 35;
 		$scope.contactData.productid = 0;
+		$scope.contactData.leadData = "Contact Us";
 		currentForm.parent().parent().removeClass('invalid-form');
 		currentForm.parent().parent().addClass('message-sent');
+		console.log($scope.contactData);
 		 $http({method:'POST',url:'saveContactDetail',data:$scope.contactData}).success(function(response) {
 			 $scope.contactUs = {};
 			

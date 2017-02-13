@@ -13,6 +13,8 @@ public class ContactVM {
 	public String productid;
 	public String leadTypeId;
 	public Long locations_id;
+	public String leadData;
+	public String collection;
 	public List<KeyValueDataVM> customData;
 	
 	
