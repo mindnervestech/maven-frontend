@@ -136,6 +136,7 @@ class HomeService {
 		List<Map<String, Object>> emailInfo = jdbcTemplate.queryForList("select * from email_details");
 		List<Map<String, Object>> productIdData = null;
 		List<Map<String, Object>> parentIdData = null;
+		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
 		if(!vm.productid.equals("0")){
 			productIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+Long.parseLong(vm.productid)+"'");
 		}
@@ -164,7 +165,7 @@ class HomeService {
 						Message message = new MimeMessage(session);
 						message.setFrom(new InternetAddress(emailId));
 						message.setRecipients(Message.RecipientType.TO,
-								InternetAddress.parse("deependrasingh120794@gmail.com"));
+								InternetAddress.parse(managerId.get(0).get("email").toString()));
 						message.setSubject("Contact Us");
 						Multipart multipart = new MimeMultipart();
 						BodyPart messageBodyPart = new MimeBodyPart();
