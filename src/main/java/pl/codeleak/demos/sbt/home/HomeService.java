@@ -2,6 +2,7 @@ package pl.codeleak.demos.sbt.home;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,9 +10,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.text.DefaultEditorKit.CutAction;
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -107,9 +124,82 @@ class HomeService {
 			}
 		}
 		createPdf(vm, leadIdData);
+		sendMail(leadIdData,vm);
 		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
+	
+	
+	
+	private void sendMail(List<Map<String, Object>> leadIdData,ContactVM vm) {
+		
+		List<Map<String, Object>> emailInfo = jdbcTemplate.queryForList("select * from email_details");
+		final String userName = emailInfo.get(0).get("username").toString();
+		final String passward = emailInfo.get(0).get("passward").toString();
+				Properties props = new Properties();
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
+				props.put("mail.smtp.starttls.enable", "true");
+				Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(userName, passward);
+					}
+				});
+				
+			
+					try
+					{
+						Message message = new MimeMessage(session);
+						message.setFrom(new InternetAddress(emailId));
+						message.setRecipients(Message.RecipientType.TO,
+								InternetAddress.parse("yogeshpatil424@gmail.com"));
+						message.setSubject("Contact Us");
+						Multipart multipart = new MimeMultipart();
+						BodyPart messageBodyPart = new MimeBodyPart();
+						messageBodyPart = new MimeBodyPart();
+						
+						VelocityEngine ve = new VelocityEngine();
+						ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+						ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+						ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+						ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+						ve.init();
+					
+						String urlString = imagesserver1+"MavenImg/images";
+						
+				        Template t = ve.getTemplate("RequestMoreInfosubmitted.html"); 
+				        VelocityContext context = new VelocityContext();
+				        context.put("urlstring", urlString);
+				        
+				        context.put("leadType", leadIdData.get(0).get("lead_name").toString());
+				        context.put("name", vm.name);
+				        context.put("email", vm.email);
+				        context.put("phone", vm.phone);
+				      /*  context.put("message",  vm.message);
+				        context.put("logoInfo", logo);	  */    
+				        
+				        StringWriter writer = new StringWriter();
+				        t.merge( context, writer );
+				        String content = writer.toString(); 
+						
+						messageBodyPart.setContent(content, "text/html");
+						multipart.addBodyPart(messageBodyPart);
+						message.setContent(multipart);
+						Transport.send(message);
+						System.out.println("yogeshpatil424@gmail.com");
+						System.out.println("Sent test message successfully....");
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					} 
+		
+	}
+
+
+
+
 	public static void createDir(String pdfRootDir,Long locationId, int lastId) {
         File file = new File(pdfRootDir +"/"+ locationId +"/"+ "OnlineLead"+"/"+lastId);
         if (!file.exists()) {
