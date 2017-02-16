@@ -18,6 +18,7 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -124,18 +125,19 @@ class HomeService {
 			}
 		}
 		createPdf(vm, leadIdData);
-		sendMail(leadIdData,vm);
+		sendMail(leadIdData,vm,userValue,whichUser);
 		saveCustomData(id,vm.customData,Long.parseLong(vm.leadTypeId),jdbcTemplate);
 	}
 	
 	
 	
 	
-	private void sendMail(List<Map<String, Object>> leadIdData,ContactVM vm) {
-		
+	private void sendMail(List<Map<String, Object>> leadIdData,ContactVM vm,Long userValue,List<Map<String, Object>> whichUser) {
+		List<String> emailString = new ArrayList<String>();
 		List<Map<String, Object>> emailInfo = jdbcTemplate.queryForList("select * from email_details");
 		List<Map<String, Object>> productIdData = null;
 		List<Map<String, Object>> parentIdData = null;
+		List<Map<String, Object>> listOfUser = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"'");
 		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
 		if(!vm.productid.equals("0")){
 			productIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+Long.parseLong(vm.productid)+"'");
@@ -145,80 +147,123 @@ class HomeService {
 				parentIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+productIdData.get(0).get("parent_id")+"'");
 			}
 		}
-		
+		InternetAddress[] usersArray = new InternetAddress[listOfUser.size()];
+		int index = 0;
+		try {
+			usersArray[index] = new InternetAddress(managerId.get(0).get("communicationemail").toString());
+			emailString.add(managerId.get(0).get("communicationemail").toString());
+		} catch (AddressException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		index++;
+		for(Map list : listOfUser) {
+			if(whichUser.get(0).get("person_value").equals("Me and all Sales people")){
+				if(!list.get("id").toString().equals(managerId.get(0).get("id").toString())){
+						emailString.add(list.get("communicationemail").toString());
+				}
+			}else if(whichUser.get(0).get("redirect_value").equals("Automatically redirect an online customer requests based on")){
+				if(whichUser.get(0).get("person_value").equals("Zip Code")){
+					List<Map<String, Object>> salePerson = jdbcTemplate.queryForList("select * from sales_person_zip_code where zip_code = '"+vm.zipcode+"'");
+					for(Map listMap:salePerson){
+						if(listMap.get("user_id").toString().equals(list.get("id").toString())){
+							emailString.add(list.get("communicationemail").toString());
+						}
+					}
+				}
+				if(whichUser.get(0).get("person_value").equals("Manufacturer")){
+					List<Map<String, Object>> salePerson = jdbcTemplate.queryForList("select * from customer_request_manufacturer_settings where manufacturer_id = '"+vm.productid+"'");
+					for(Map listMap:salePerson){
+						if(listMap.get("user_id").toString().equals(list.get("id").toString())){
+							emailString.add(list.get("communicationemail").toString());
+						}
+					}
+				}
+			}else {
+				if(list.get("id").toString().equals(userValue.toString())){
+						emailString.add(list.get("communicationemail").toString());
+				}
+				
+			}
+			
+		}
+	
 		final String userName = emailInfo.get(0).get("username").toString();
 		final String passward = emailInfo.get(0).get("passward").toString();
-				Properties props = new Properties();
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.host", "smtp.gmail.com");
-				props.put("mail.smtp.port", "587");
-				props.put("mail.smtp.starttls.enable", "true");
-				Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(userName, passward);
-					}
-				});
-				
-			
-					try
-					{
-						Message message = new MimeMessage(session);
-						message.setFrom(new InternetAddress(emailId));
-						message.setRecipients(Message.RecipientType.TO,
-								InternetAddress.parse(managerId.get(0).get("email").toString()));
-						message.setSubject("Contact Us");
-						Multipart multipart = new MimeMultipart();
-						BodyPart messageBodyPart = new MimeBodyPart();
-						messageBodyPart = new MimeBodyPart();
-						
-						VelocityEngine ve = new VelocityEngine();
-						ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
-						ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
-						ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
-						ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-						ve.init();
+		
+		for(String email:emailString){
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(userName, passward);
+				}
+			});
+		
+				try
+				{
+					Message message = new MimeMessage(session);
+					message.setFrom(new InternetAddress(emailId));
+					message.setRecipients(Message.RecipientType.TO,
+							InternetAddress.parse(email));
+					message.setSubject("New Request");
+					Multipart multipart = new MimeMultipart();
+					BodyPart messageBodyPart = new MimeBodyPart();
+					messageBodyPart = new MimeBodyPart();
 					
-						String urlString = imagesserver1+"MavenImg/images";
-						
-				        Template t = ve.getTemplate("RequestMoreInfosubmitted.html"); 
-				        VelocityContext context = new VelocityContext();
-				        context.put("urlstring", urlString);
-				        if(vm.leadData.equals("Contact Us")){
-				        	context.put("leadType", "Contact Us");
-				        }else if(vm.leadData.equals("Request More Info")){
-				        	context.put("leadType", leadIdData.get(0).get("lead_name").toString());
-				        }
-				        context.put("name", vm.name);
-				        context.put("email", vm.email);
-				        context.put("phone", vm.phone);
-				        System.out.println("dsssddsdsdsdsdsdd"+productIdData);
-				        
-				        if(productIdData != null){
-				        	context.put("collection", productIdData.get(0).get("title").toString());
-				        }
-				        if(parentIdData != null){
-				        	context.put("subCollection", parentIdData.get(0).get("title").toString());
-				        }else{
-				        	context.put("subCollection","null");
-				        }
-				      /*  context.put("message",  vm.message);
-				        context.put("logoInfo", logo);	  */    
-				        
-				        StringWriter writer = new StringWriter();
-				        t.merge( context, writer );
-				        String content = writer.toString(); 
-						
-						messageBodyPart.setContent(content, "text/html");
-						multipart.addBodyPart(messageBodyPart);
-						message.setContent(multipart);
-						Transport.send(message);
-						System.out.println("yogeshpatil424@gmail.com");
-						System.out.println("Sent test message successfully....");
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					} 
+					VelocityEngine ve = new VelocityEngine();
+					ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+					ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+					ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+					ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+					ve.init();
+				
+					String urlString = imagesserver1+"MavenImg/images";
+					
+			        Template t = ve.getTemplate("RequestMoreInfosubmitted.html"); 
+			        VelocityContext context = new VelocityContext();
+			        context.put("urlstring", urlString);
+			        if(vm.leadData.equals("Contact Us")){
+			        	context.put("leadType", "Contact Us");
+			        }else if(vm.leadData.equals("Request More Info")){
+			        	context.put("leadType", leadIdData.get(0).get("lead_name").toString());
+			        }
+			        context.put("name", vm.name);
+			        context.put("email", vm.email);
+			        context.put("phone", vm.phone);
+			        System.out.println("dsssddsdsdsdsdsdd"+productIdData);
+			        
+			        if(productIdData != null){
+			        	context.put("collection", productIdData.get(0).get("title").toString());
+			        }
+			        if(parentIdData != null){
+			        	context.put("subCollection", parentIdData.get(0).get("title").toString());
+			        }else{
+			        	context.put("subCollection","null");
+			        }
+			        
+			        StringWriter writer = new StringWriter();
+			        t.merge( context, writer );
+			        String content = writer.toString(); 
+					
+					messageBodyPart.setContent(content, "text/html");
+					multipart.addBodyPart(messageBodyPart);
+					message.setContent(multipart);
+					Transport.send(message);
+					System.out.println("yogeshpatil424@gmail.com");
+					System.out.println("Sent test message successfully....");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				} 
+		}
+		
+		
+				
 		
 	}
 
