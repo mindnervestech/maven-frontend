@@ -137,7 +137,7 @@ class HomeService {
 		List<Map<String, Object>> emailInfo = jdbcTemplate.queryForList("select * from email_details");
 		List<Map<String, Object>> productIdData = null;
 		List<Map<String, Object>> parentIdData = null;
-		List<Map<String, Object>> listOfUser = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"'");
+		List<Map<String, Object>> listOfUser = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and account = 'active'");
 		List<Map<String, Object>> managerId = jdbcTemplate.queryForList("select * from auth_user where location_id = '"+16+"' and role = '"+"Manager"+"'");
 		if(!vm.productid.equals("0")){
 			productIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+Long.parseLong(vm.productid)+"'");
@@ -147,7 +147,7 @@ class HomeService {
 				parentIdData = jdbcTemplate.queryForList("select * from add_collection where id ='"+productIdData.get(0).get("parent_id")+"'");
 			}
 		}
-		InternetAddress[] usersArray = new InternetAddress[listOfUser.size()];
+		/*InternetAddress[] usersArray = new InternetAddress[listOfUser.size()];
 		int index = 0;
 		try {
 			usersArray[index] = new InternetAddress(managerId.get(0).get("communicationemail").toString());
@@ -156,12 +156,12 @@ class HomeService {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
-		index++;
+		index++;*/
 		for(Map list : listOfUser) {
 			if(whichUser.get(0).get("person_value").equals("Me and all Sales people")){
-				if(!list.get("id").toString().equals(managerId.get(0).get("id").toString())){
+				//if(!list.get("id").toString().equals(managerId.get(0).get("id").toString())){
 						emailString.add(list.get("communicationemail").toString());
-				}
+				//}
 			}else if(whichUser.get(0).get("redirect_value").equals("Automatically redirect an online customer requests based on")){
 				if(whichUser.get(0).get("person_value").equals("Zip Code")){
 					List<Map<String, Object>> salePerson = jdbcTemplate.queryForList("select * from sales_person_zip_code where zip_code = '"+vm.zipcode+"'");
@@ -605,7 +605,7 @@ public Map getCollectionAllData() {
 			
 			manufacturersUrls.add(vmMain);
 			
-			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and main_collection_id = '"+(Long) mapMain.get("id")+"' and parent_id IS NULL and hide_website = 0");
+			List<Map<String, Object>> rowsSub = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and main_collection_id = '"+(Long) mapMain.get("id")+"' and parent_id IS NULL and hide_website = 0 ORDER BY order_index");
 			for(Map mapSub : rowsSub) {
 				List<CollectionVM> collChild = new ArrayList<CollectionVM>();
 				List<ManufacturersImgVM> manufacturersimgUrls = new ArrayList<ManufacturersImgVM>();
