@@ -613,7 +613,7 @@ public Map getCollectionAllData() {
 				CollectionVM cVm = new CollectionVM();
 				AddCollectionData(mapSub,cVm,coll);
 				AddCollectionDataList(manufacturersUrls,manufacturersimgUrls,vmSub,mapSub);
-				List<Map<String, Object>> rowsChild = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and parent_id = '"+vmSub.id+"' and hide_website = 0");
+				List<Map<String, Object>> rowsChild = jdbcTemplate.queryForList("select * from add_collection where public_status = 'publish' and parent_id = '"+vmSub.id+"' and hide_website = 0 ORDER BY title");
 				for(Map mapChild:rowsChild){
 					List<ManufacturersImgVM> collectionImgUrls = new ArrayList<ManufacturersImgVM>();
 					CollectionVM vmColl = new CollectionVM();
