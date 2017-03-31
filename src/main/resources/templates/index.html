@@ -22,6 +22,8 @@
     <!-- build:css css/main.min.css-->
     <link rel="stylesheet" href="/css/bundle.min.css" />
     <!-- endbuild-->
+    
+    
     <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
     
   </head>
@@ -96,8 +98,8 @@
           <article th:each="img : ${sliderImg}" id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
             <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="${img.imgPath}" data-mobile="${img.imgPath}"/></div>
-                <div class="intro-slider__sub-image"><img data-desktop="${img.imgPath}" data-mobile="${img.imgPath}"/></div>
+                <div class="intro-slider__image"><img th:attr="data-desktop=${imagesserver}+'MavenImg/images'+ ${img.imgPath}"  alt="" /></div>
+                <div class="intro-slider__sub-image"><img th:attr="data-desktop=${imagesserver}+'MavenImg/images'+ ${img.imgPath}" alt="" /></div>
               </div>
               <!-- <div class="intro-slider__item">
                 <div class="intro-slider__image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
