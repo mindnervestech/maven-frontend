@@ -95,9 +95,9 @@
           <h1 class="fixed-heading"></h1>
         </div>
         <div class="scroll-items-wrapper">
-          <article th:each="img : ${sliderImg}" id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
+          <article id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
             <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
-              <div class="intro-slider__item">
+              <div class="intro-slider__item" th:each="img : ${sliderImg}">
                 <div class="intro-slider__image"><img th:attr="data-desktop=${imagesserver}+'MavenImg/images'+ ${img.imgPath}"  alt="" /></div>
                 <div class="intro-slider__sub-image"><img th:attr="data-desktop=${imagesserver}+'MavenImg/images'+ ${img.imgPath}" alt="" /></div>
               </div>
