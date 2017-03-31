@@ -22,6 +22,7 @@ import view.ContactVM;
 import view.CustomizationFormVm;
 import view.SliderImagesVM;
 import view.WebAnalyticsVM;
+import view.siteDescriptionVM;
 
 import com.planetj.servlet.filter.compression.CompressingFilter;
 
@@ -57,9 +58,12 @@ class HomeController {
     	Map mListAllData = homeService.getCollectionAllData();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
     	List<SliderImagesVM> sliderimage = homeService.getAllSliderImages();
+    	siteDescriptionVM des = homeService.getSiteDescription();
+    	
     	model.addAttribute("manufacturersList", mListAllData.get("menuList"));
     	model.addAttribute("allCollectionList", mListAllData.get("artial"));
     	
+    	model.addAttribute("description",des);
     	model.addAttribute("sliderImg",sliderimage);
     	model.addAttribute("imagesserver", imagesserver);
     	model.addAttribute("webAnalytics", webAna);

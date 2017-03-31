@@ -45,6 +45,7 @@ import view.MainCollectionVM;
 import view.ManufacturersImgVM;
 import view.SliderImagesVM;
 import view.WebAnalyticsVM;
+import view.siteDescriptionVM;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -876,6 +877,19 @@ public List<SliderImagesVM> getAllSliderImages() {
 		coll.add(web);
 	}
 	return coll;
+}
+
+
+
+
+public siteDescriptionVM getSiteDescription() {
+	siteDescriptionVM web = new siteDescriptionVM();
+	List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from site_about_us");
+	for(Map map : rows) {
+		web.name = (String) map.get("header_title");
+		web.description = (String) map.get("subtitle");
+	}
+	return web;
 }
 
 

@@ -96,7 +96,7 @@
           <article th:each="img : ${sliderImg}" id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
             <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img th:src="${imagesserver}+'MavenImg/images'+ ${img.imgPath}"/></div>
+                <div class="intro-slider__image"><img data-desktop="${img.imgPath}" data-mobile="${img.imgPath}"/></div>
                 <div class="intro-slider__sub-image"><img data-desktop="${img.imgPath}" data-mobile="${img.imgPath}"/></div>
               </div>
               <!-- <div class="intro-slider__item">
@@ -123,7 +123,7 @@
               </div>
               <div data-layout="1" class="scroll-item__right-column scroll-item__text scroll-item__right-column_flex">
                 <div class="scroll-item__wrap-text"><img src="img/Maven_Logo1 copy.png" alt="Maven"/>
-                  <p class="scroll-item__paragraph">MAVEN is a design-focused, Independent Manufacturer’s Representative Group located in San Francisco. MAVEN represents a small, curated group of innovative furniture manufacturers from around the world. Our products can be found extensively throughout our community and our reach extends into all types of environments from small start up’s to global technology companies, law firms, healthcare environments, airports and restaurants.</p>
+                  <p class="scroll-item__paragraph" th:text='${description.description}'></p>
                 </div>
               </div>
             </div>
