@@ -867,7 +867,7 @@ public String getSinglePdf(Long id,String imagesserver){
 public List<SliderImagesVM> getAllSliderImages() {
 	
 	List<SliderImagesVM> coll = new ArrayList<SliderImagesVM>();
-	List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from slider_image");
+	List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from slider_image order by slider_number");
 	for(Map map : rows) {
 		SliderImagesVM web = new SliderImagesVM();
 		web.id = (Long) map.get("id");
