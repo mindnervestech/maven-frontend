@@ -43,6 +43,7 @@ import view.KeyValueDataVM;
 import view.LeadTypeVM;
 import view.MainCollectionVM;
 import view.ManufacturersImgVM;
+import view.SliderImagesVM;
 import view.WebAnalyticsVM;
 
 import com.google.gson.JsonArray;
@@ -860,6 +861,22 @@ public String getSinglePdf(Long id,String imagesserver){
 	}	
 	return file;
 }*/
+
+
+public List<SliderImagesVM> getAllSliderImages() {
+	
+	List<SliderImagesVM> coll = new ArrayList<SliderImagesVM>();
+	List<Map<String, Object>> rows = jdbcTemplate.queryForList("select * from slider_image");
+	for(Map map : rows) {
+		SliderImagesVM web = new SliderImagesVM();
+		web.id = (Long) map.get("id");
+		web.imgPath = (String) map.get("path");
+		web.imgName = (String) map.get("img_name");
+		System.out.println(web.imgPath);
+		coll.add(web);
+	}
+	return coll;
+}
 
 
 

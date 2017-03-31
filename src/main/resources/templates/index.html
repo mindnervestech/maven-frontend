@@ -93,20 +93,24 @@
           <h1 class="fixed-heading"></h1>
         </div>
         <div class="scroll-items-wrapper">
-          <article id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
+          <article th:each="img : ${sliderImg}" id="intro" class="scroll-item scroll-item_slide-out scroll-item_slide-out_full scroll-item_slide-out_active">
             <div data-preview="img/preview.jpg" class="owl-carousel intro-slider intro-slider_fullscreen">
               <div class="intro-slider__item">
+                <div class="intro-slider__image"><img th:src="${imagesserver}+'MavenImg/images'+ ${img.imgPath}"/></div>
+                <div class="intro-slider__sub-image"><img data-desktop="${img.imgPath}" data-mobile="${img.imgPath}"/></div>
+              </div>
+              <!-- <div class="intro-slider__item">
+                <div class="intro-slider__image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
+                <div class="intro-slider__sub-image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
+              </div>
+			  <div class="intro-slider__item">
                 <div class="intro-slider__image"><img data-desktop="img/Maven1.jpg" data-mobile="img/mobile/m-allermuir.jpg"/></div>
                 <div class="intro-slider__sub-image"><img data-desktop="img/Maven1.jpg" data-mobile="img/mobile/m-allermuir.jpg"/></div>
               </div>
               <div class="intro-slider__item">
-                <div class="intro-slider__image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
-                <div class="intro-slider__sub-image"><img data-desktop="img/Maven2.jpg" data-mobile="img/mobile/m-Kristalia.jpg" alt=""/></div>
-              </div>
-              <div class="intro-slider__item">
                 <div class="intro-slider__image"><img data-desktop="img/Maven3.jpg" data-mobile="img/mobile/m-OFS.jpg" alt=""/></div>
                 <div class="intro-slider__sub-image"><img data-desktop="img/Maven3.jpg" data-mobile="img/mobile/m-OFS.jpg" alt=""/></div>
-              </div>
+              </div> -->
             </div>
           </article>
           <article id="about" class="scroll-item">

@@ -1,5 +1,6 @@
 package pl.codeleak.demos.sbt.home;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import view.ContactVM;
 import view.CustomizationFormVm;
+import view.SliderImagesVM;
 import view.WebAnalyticsVM;
 
 import com.planetj.servlet.filter.compression.CompressingFilter;
@@ -54,10 +56,11 @@ class HomeController {
     	
     	Map mListAllData = homeService.getCollectionAllData();
     	WebAnalyticsVM webAna = homeService.getWebAnalytics();
+    	List<SliderImagesVM> sliderimage = homeService.getAllSliderImages();
     	model.addAttribute("manufacturersList", mListAllData.get("menuList"));
     	model.addAttribute("allCollectionList", mListAllData.get("artial"));
     	
-    	
+    	model.addAttribute("sliderImg",sliderimage);
     	model.addAttribute("imagesserver", imagesserver);
     	model.addAttribute("webAnalytics", webAna);
     	//model.addAttribute("imagesserver", rootPath);
